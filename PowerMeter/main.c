@@ -45,7 +45,9 @@ void print_time(void);
 
 void printRFRegValue(uint8_t rfRegister);
 
-void printpICRegValue(uint8_t pICRegister);
+void get_pIC_RegValue(uint8_t pICRegister);
+
+void set_pIC_RegValue(uint8_t pICRegister, uint8_t highBit, uint8_t lowBit);
 
 volatile bool rf_interrupt = false;
 volatile bool send_message = false;
@@ -77,9 +79,18 @@ int main(void)
 	printRFRegValue(RF_SETUP);
 	
 	printString("pIC Reg Value 01H: ");
-	printpICRegValue(0x01);
+	get_pIC_RegValue(0x01);
 	printString("pIC Reg Value 03H: ");
-	printpICRegValue(0x03);
+	get_pIC_RegValue(0x03);
+	printString("Metering Mode: ");
+	get_pIC_RegValue(0x2B);
+	printString("Measurement Calibration start: ");
+	get_pIC_RegValue(0x30);
+	set_pIC_RegValue(0x30, 0x56, 0x78);
+	printString("New Measurement calibration start: ");
+	get_pIC_RegValue(0x30);
+	
+	
 	
     while (1) 
     {
@@ -229,7 +240,7 @@ void printRFRegValue(uint8_t rfRegister){
 	
 }
 
-void printpICRegValue(uint8_t pICRegister){
+void get_pIC_RegValue(uint8_t pICRegister){
 	
 	PORTB &= ~(1<<0);
 	SPI_tradeByte(ReadRegPower | pICRegister);
@@ -242,10 +253,30 @@ void printpICRegValue(uint8_t pICRegister){
 	
 }
 
+void set_pIC_RegValue(uint8_t pICRegister, uint8_t highBit, uint8_t lowBit){
+	
+	PORTB &= ~(1<<0);
+	SPI_tradeByte(WriteRegPower | pICRegister);
+	SPI_tradeByte(highBit);
+	SPI_tradeByte(lowBit);
+	PORTB |= (1<<0);
+	printString("Set Reg: ");
+	printHexByte(pICRegister);
+	printString(" to value: ");
+	printHexByte(highBit);
+	printHexByte(lowBit);
+	printString("H\r\n");
+	
+}
+
 // each one second interrupt
 ISR(TIMER1_COMPA_vect) {
 	send_message = true;
-	print_time();
+	//print_time();
+	printString("Voltage: ");
+	get_pIC_RegValue(0x49);
+	printString(" Measurement Calibration start: ");
+	get_pIC_RegValue(0x30);
 }
 
 // nRF24L01 interrupt
