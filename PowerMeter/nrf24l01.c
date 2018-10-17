@@ -5,14 +5,17 @@
 #include <string.h>
 #include "nrf24l01.h"
 #include "nrf24l01-mnemonics.h"
+#include "SPI.h"
 
 
 static void copy_address(uint8_t *source, uint8_t *destination);
 inline static void set_as_output(gpio_pin pin);
 inline static void set_high(gpio_pin pin);
 inline static void set_low(gpio_pin pin);
-static void spi_init(nRF24L01 *rf);
-static uint8_t spi_transfer(uint8_t data);
+inline static void set_as_output(gpio_pin pin);
+inline static void set_as_input(gpio_pin pin);
+//static void spi_init(nRF24L01 *rf);
+//static uint8_t SPI_tradeByte(uint8_t data);
 
 
 nRF24L01 *nRF24L01_init(void) {
@@ -28,7 +31,13 @@ void nRF24L01_begin(nRF24L01 *rf) {
     set_high(rf->ss);
     set_low(rf->ce);
 
-    spi_init(rf);
+    //spi_init(rf);
+	// MISO pin automatically overrides to input
+	set_as_output(rf->sck);
+	set_as_output(rf->mosi);
+	set_as_input(rf->miso);
+	
+	if(!((SPCR >> MSTR)&0x01)) SPI_init();
 
     nRF24L01_send_command(rf, FLUSH_RX, NULL, 0);
     nRF24L01_send_command(rf, FLUSH_TX, NULL, 0);
@@ -69,9 +78,9 @@ uint8_t nRF24L01_send_command(nRF24L01 *rf, uint8_t command, void *data,
     size_t length) {
     set_low(rf->ss);
 
-    rf->status = spi_transfer(command);
+    rf->status = SPI_tradeByte(command);
     for (unsigned int i = 0; i < length; i++)
-        ((uint8_t*)data)[i] = spi_transfer(((uint8_t*)data)[i]);
+        ((uint8_t*)data)[i] = SPI_tradeByte(((uint8_t*)data)[i]);
 
     set_high(rf->ss);
 
@@ -201,6 +210,16 @@ void nRF24L01_clear_receive_interrupt(nRF24L01 *rf) {
     nRF24L01_write_register(rf, STATUS, &data, 1);
 }
 
+uint8_t getRFRegValue(uint8_t rfRegister){
+	
+	PORTB &= ~(1<<2);
+	SPI_tradeByte(R_REGISTER | rfRegister);
+	uint8_t rf_d1bit = SPI_tradeByte(0);
+	PORTB |= (1<<2);
+	return rf_d1bit;
+	
+}
+
 static void copy_address(uint8_t *source, uint8_t *destination) {
     for (int i = 0; i < 5; i++)
         destination[i] = source[i];
@@ -224,30 +243,10 @@ inline static void set_low(gpio_pin pin) {
     *pin.port &= ~_BV(pin.pin);
 }
 
-static void spi_init(nRF24L01 *rf) {
-    // set as master
-    SPCR |= _BV(MSTR);
-    // enable SPI
-    SPCR |= _BV(SPE);
-    // MISO pin automatically overrides to input
-    set_as_output(rf->sck);
-    set_as_output(rf->mosi);
-    set_as_input(rf->miso);
-    // SPI mode 0: Clock Polarity CPOL = 0, Clock Phase CPHA = 0
-    SPCR &= ~_BV(CPOL);
-    SPCR &= ~_BV(CPHA);
-    // Clock 2X speed
-    //SPCR &= ~_BV(SPR0);
-    SPCR |= _BV(SPR0);
-    SPCR &= ~_BV(SPR1);
-    //SPSR |= _BV(SPI2X);
-    SPSR &= ~_BV(SPI2X);
-    // most significant first (MSB)
-    SPCR &= ~_BV(DORD);
-}
-
-static uint8_t spi_transfer(uint8_t data) {
+/*
+static uint8_t SPI_tradeByte(uint8_t data) {
     SPDR = data;
     while (!(SPSR & _BV(SPIF)));
     return SPDR;
 }
+*/

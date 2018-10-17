@@ -5,98 +5,74 @@
  * Author : alarr
  */ 
 
-//#define F_CPU 1000000UL
-#include "defines.h"
+#include "defines.h" // defined F_CPU in this file.
+
+#ifndef F_CPU                          /* if not defined in Makefile... */
+#define F_CPU  1000000UL                     /* set a safe default baud rate */
+#endif
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdbool.h>
 #include <string.h>
 //#include <util/delay.h>
+#include "SPI.h"
+#include "USART.h"
 #include "nrf24l01.h"
 #include "nrf24l01-mnemonics.h"
-#include "USART.h"
 #include "i2c_RTC_DS1307.h"
-
-
-#define ReadRegPower 0x80
-#define WriteRegPower 0x00
-
-typedef struct {
-	gpio_pin ss; // slave select
-	gpio_pin ce; // chip enabled
-	gpio_pin sck; // serial clock
-	gpio_pin mosi; // master out slave in
-	gpio_pin miso; // master in slave out
-	uint8_t status;
-} m90E26;
-m90E26 *powerIC_init(void);
-m90E26 *setup_powerIC(void);
-
+#include "M90E26.h"
+#include "M90E26_Pins.h"
 
 static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4);}
-	
-uint8_t SPI_tradeByte(uint8_t byte);
 
 void setup_timer(void);
 
 nRF24L01 *setup_rf(void);
 
+m90E26 *setup_powerIC(void);
+
 void print_time(void);
 
-void printRFRegValue(uint8_t rfRegister);
+void print_RF_settings(void);
 
-void get_pIC_RegValue(uint8_t pICRegister);
+void print_power_IC_settings(void);
 
-void set_pIC_RegValue(uint8_t pICRegister, uint8_t highBit, uint8_t lowBit);
+void print_power_data(void);
 
 volatile bool rf_interrupt = false;
 volatile bool send_message = false;
-uint8_t clockAddressR = 0b11010001;
-uint8_t clockAddressW = 0b11010000;
-uint8_t to_address[5] = {0xC2, 0xC2, 0xC2, 0xC2, 0xC2};
+uint8_t clockAddressR = 0b11010001; // write bit for DS1307
+uint8_t clockAddressW = 0b11010000; // read bit for DS1307
+uint8_t to_address[5] = {0xC2, 0xC2, 0xC2, 0xC2, 0xC2}; // RF channel address.
 
 int main(void)
 {
 	initUSART();
 	initI2C();
-	DDRB |= (1<<0);
-	bool on = false;
-	sei();
-	nRF24L01 *rf = setup_rf();
-	m90E26 *pIC = setup_powerIC();
-	setup_timer();
+	SPI_init();
 	
-	//set Chip select on power meter IC high
-	PORTB |= (1<<0);
+	//bool on = false;
+	sei();
+	//nRF24L01 *rf = setup_rf();
+	setup_rf();
+	//m90E26 *pIC = setup_powerIC();
+	
+	pIC_Start();
+	setup_timer();
 	
 	printString("Starting Program!\r\n");
 	
+	print_RF_settings();
 	
-	printString("Transmitting on Channel: 0x");
-	printRFRegValue(RF_CH);
-	
-	printString("RF Set up Value: ");
-	printRFRegValue(RF_SETUP);
-	
-	printString("pIC Reg Value 01H: ");
-	get_pIC_RegValue(0x01);
-	printString("pIC Reg Value 03H: ");
-	get_pIC_RegValue(0x03);
-	printString("Metering Mode: ");
-	get_pIC_RegValue(0x2B);
-	printString("Measurement Calibration start: ");
-	get_pIC_RegValue(0x30);
-	set_pIC_RegValue(0x30, 0x56, 0x78);
-	printString("New Measurement calibration start: ");
-	get_pIC_RegValue(0x30);
-	
-	
+	print_power_IC_settings();
 	
     while (1) 
     {
 		
+		if (send_message) print_power_data();
 		
-		
+		/*
 		if (rf_interrupt) {
 			rf_interrupt = false;
 			int success = nRF24L01_transmit_success(rf);
@@ -111,6 +87,8 @@ int main(void)
 		}
 
 		if (send_message) {
+			//print_time();
+			//print_power_data();
 			send_message = false;
 			on = !on;
 			nRF24L01Message msg;
@@ -127,7 +105,7 @@ int main(void)
 			nRF24L01_transmit(rf, to_address, &msg);
 			
 		}
-		
+		*/
     }
 }
 
@@ -149,12 +127,6 @@ nRF24L01 *setup_rf(void) {
 	EIMSK |= _BV(INT0);
 	nRF24L01_begin(rf);
 	return rf;
-}
-
-m90E26 *powerIC_init(void) {
-	m90E26 *pIC = malloc(sizeof(m90E26));
-	memset(pIC, 0, sizeof(m90E26));
-	return pIC;
 }
 
 m90E26 *setup_powerIC(void) {
@@ -185,11 +157,16 @@ void setup_timer(void) {
 	
 }
 
-uint8_t SPI_tradeByte(uint8_t byte) {
-	SPDR = byte;                       /* SPI starts sending immediately */
-	loop_until_bit_is_set(SPSR, SPIF);                /* wait until done */
-	/* SPDR now contains the received byte */
-	return SPDR;
+void print_RF_settings(void){
+	
+	printString("Transmitting on Channel: 0x");
+	printHexByte(getRFRegValue(RF_CH));
+	printString("H\r\n");
+	
+	printString("RF Set up Value: ");
+	printHexByte(getRFRegValue(RF_SETUP));
+	printString("H\r\n");
+	
 }
 
 void print_time(void){
@@ -229,54 +206,49 @@ void print_time(void){
 	printString("\r\n");
 }
 
-void printRFRegValue(uint8_t rfRegister){
+void print_power_IC_settings(void){
+	printString("Power IC Settings:");
+	printString("\r\n");
 	
-	PORTB &= ~(1<<2);
-	SPI_tradeByte(R_REGISTER | rfRegister);
-	uint8_t rf_d1bit = SPI_tradeByte(0);
-	PORTB |= (1<<2);
-	printHexByte(rf_d1bit);
-	printString("H\r\n");
+	printString("pIC Reg Value 01H: ");
+	printWord(get_pIC_RegValue(0x01));
+	printString("\r\n");
 	
-}
-
-void get_pIC_RegValue(uint8_t pICRegister){
+	printString("pIC Reg Value 03H: ");
+	printWord(get_pIC_RegValue(0x03));
+	printString("\r\n");
 	
-	PORTB &= ~(1<<0);
-	SPI_tradeByte(ReadRegPower | pICRegister);
-	uint8_t pIC_d1bitHigh = SPI_tradeByte(0);
-	uint8_t pIC_d1bitLow = SPI_tradeByte(0);
-	PORTB |= (1<<0);
-	printHexByte(pIC_d1bitHigh);
-	printHexByte(pIC_d1bitLow);
-	printString("H\r\n");
+	printString("Metering Mode: ");
+	printWord(get_pIC_RegValue(0x2B));
+	printString("\r\n");
+	
+	printString("Measurement Calibration start: ");
+	printWord((get_pIC_RegValue(0x30)));
+	printString("\r\n");
 	
 }
 
-void set_pIC_RegValue(uint8_t pICRegister, uint8_t highBit, uint8_t lowBit){
+void print_power_data(void){
 	
-	PORTB &= ~(1<<0);
-	SPI_tradeByte(WriteRegPower | pICRegister);
-	SPI_tradeByte(highBit);
-	SPI_tradeByte(lowBit);
-	PORTB |= (1<<0);
-	printString("Set Reg: ");
-	printHexByte(pICRegister);
-	printString(" to value: ");
-	printHexByte(highBit);
-	printHexByte(lowBit);
-	printString("H\r\n");
+	printString("Measurement Calibration start: \r\n");
+	printWord(get_pIC_RegValue(0x30));
+	printString("Voltage: ");
+	printWord(get_pIC_RegValue(0x49));
+	printString("\tCurrent: ");
+	printWord(get_pIC_RegValue(0x48));
+	printString("\t Active Power: ");
+	printWord(get_pIC_RegValue(0x4A));
+	printString("\tFrequency: ");
+	printWord(get_pIC_RegValue(0x4C));
+	printString("\tPower Factor: ");
+	printWord(get_pIC_RegValue(0x4D));
+	printString("\r\n");
 	
 }
 
 // each one second interrupt
 ISR(TIMER1_COMPA_vect) {
 	send_message = true;
-	//print_time();
-	printString("Voltage: ");
-	get_pIC_RegValue(0x49);
-	printString(" Measurement Calibration start: ");
-	get_pIC_RegValue(0x30);
 }
 
 // nRF24L01 interrupt

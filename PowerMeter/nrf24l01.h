@@ -49,5 +49,6 @@ void nRF24L01_retry_transmit(nRF24L01 *rf);
 void nRF24L01_clear_interrupts(nRF24L01 *rf);
 void nRF24L01_clear_transmit_interrupts(nRF24L01 *rf);
 void nRF24L01_clear_receive_interrupt(nRF24L01 *rf);
+uint8_t getRFRegValue(uint8_t rfRegister);
 
 #endif

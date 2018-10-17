@@ -21,10 +21,6 @@
 #include <util/setbaud.h>
 #include "defines.h"
 
-//#ifndef F_CPU                          /* if not defined in Makefile... */
-//#define F_CPU  1000000UL                     /* set a safe default baud rate */
-//#endif
-
 void initUSART(void) {                                /* requires BAUD */
   UBRR0H = UBRRH_VALUE;                        /* defined in setbaud.h */
   UBRR0L = UBRRL_VALUE;
@@ -89,14 +85,15 @@ void readString(char myString[], uint8_t maxLength) {
 
 void printByte(uint8_t byte) {
               /* Converts a byte to a string of decimal text, sends it */
-  //transmitByte('0' + (byte / 100));                        /* Hundreds */
+  transmitByte('0' + (byte / 100));                        /* Hundreds */
   transmitByte('0' + ((byte / 10) % 10));                      /* Tens */
   transmitByte('0' + (byte % 10));                             /* Ones */
 }
 
 void printWord(uint16_t word) {
-  //transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+  transmitByte('0' + (word / 10000));                 /* Ten-thousands */
   transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+  printString("."); // 
   transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
   transmitByte('0' + ((word / 10) % 10));                      /* Tens */
   transmitByte('0' + (word % 10));                             /* Ones */
