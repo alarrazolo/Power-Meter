@@ -210,38 +210,54 @@ void print_power_IC_settings(void){
 	printString("Power IC Settings:");
 	printString("\r\n");
 	
-	printString("pIC Reg Value 01H: ");
-	printWord(get_pIC_RegValue(0x01));
+	printString("System Status: ");
+	printWord(get_pIC_RegValue(SysStatus));
 	printString("\r\n");
 	
-	printString("pIC Reg Value 03H: ");
-	printWord(get_pIC_RegValue(0x03));
+	printString("Metering Status: ");
+	printWord(get_pIC_RegValue(EnStatus));
 	printString("\r\n");
 	
 	printString("Metering Mode: ");
-	printWord(get_pIC_RegValue(0x2B));
+	printWord(get_pIC_RegValue(MMode));
 	printString("\r\n");
 	
-	printString("Measurement Calibration start: ");
-	printWord((get_pIC_RegValue(0x30)));
+	printString("Checksum 1: ");
+	printWord(get_pIC_RegValue(CS1));
+	printString("\r\n");
+	
+	printString("Checksum 2: ");
+	printWord((get_pIC_RegValue(CS2)));
+	printString("\r\n");
+	
+	printString("Measurement Calibration Start Command: ");
+	printWord((get_pIC_RegValue(AdjStart)));
+	printString("\r\n");
+	
+	printString("Voltage RMS Gain: ");
+	printWord((get_pIC_RegValue(Ugain)));
+	printString("\r\n");
+	
+	printString("L Line Current RMS Gain: ");
+	printWord((get_pIC_RegValue(IgainL)));
 	printString("\r\n");
 	
 }
 
 void print_power_data(void){
 	
-	printString("Measurement Calibration start: \r\n");
-	printWord(get_pIC_RegValue(0x30));
+	//printString("Measurement Calibration start: \r\n");
+	//printWord(get_pIC_RegValue(AdjStart));
 	printString("Voltage: ");
-	printWord(get_pIC_RegValue(0x49));
+	printWord(get_pIC_RegValue(Urms));
 	printString("\tCurrent: ");
-	printWord(get_pIC_RegValue(0x48));
+	printWord(get_pIC_RegValue(Irms));
 	printString("\t Active Power: ");
-	printWord(get_pIC_RegValue(0x4A));
+	printWord(get_pIC_RegValue(Pmean));
 	printString("\tFrequency: ");
-	printWord(get_pIC_RegValue(0x4C));
+	printWord(get_pIC_RegValue(Freq));
 	printString("\tPower Factor: ");
-	printWord(get_pIC_RegValue(0x4D));
+	printWord(get_pIC_RegValue(PowerF));
 	printString("\r\n");
 	
 }
