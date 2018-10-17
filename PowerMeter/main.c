@@ -63,14 +63,17 @@ int main(void)
 	
 	printString("Starting Program!\r\n");
 	
-	print_RF_settings();
+	//print_RF_settings();
 	
 	print_power_IC_settings();
 	
     while (1) 
     {
 		
-		if (send_message) print_power_data();
+		if (send_message){
+			//print_power_data();
+			send_message = false;
+		}
 		
 		/*
 		if (rf_interrupt) {
@@ -254,11 +257,12 @@ void print_power_data(void){
 	printWord(get_pIC_RegValue(Irms));
 	printString("\t Active Power: ");
 	printWord(get_pIC_RegValue(Pmean));
+	printString("\r\n");
 	printString("\tFrequency: ");
 	printWord(get_pIC_RegValue(Freq));
 	printString("\tPower Factor: ");
 	printWord(get_pIC_RegValue(PowerF));
-	printString("\r\n");
+	printString("\r\n\n");
 	
 }
 
