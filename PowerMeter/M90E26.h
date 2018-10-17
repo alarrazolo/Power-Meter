@@ -12,6 +12,7 @@
 #include "nrf24l01.h"
 #include "SPI.h"
 #include "M90E26_Pins.h"
+#include "USART.h"
 
 #ifndef M90E26_H_
 #define M90E26_H_
@@ -42,6 +43,18 @@ void pIC_Start(void);
 
 uint16_t get_pIC_RegValue(uint8_t pICRegister);
 
-void set_pIC_RegValue(uint8_t pICRegister, uint8_t highBit, uint8_t lowBit);
+void set_pIC_RegValue(uint8_t pICRegister, uint16_t byte);
+
+void printVoltage(uint16_t word);
+
+void printCurrent(uint16_t word);
+
+void printPower(int16_t word);
+
+void printFrequency(uint16_t word);
+
+void printPowerFactor(int16_t word);
+
+void printPhaseAngle(int16_t word);
 
 #endif /* M90E26_H_ */

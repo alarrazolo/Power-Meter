@@ -24,7 +24,36 @@ void pIC_Start(void){
 	PORTB |= (1<<0);
 	
 	if(!((SPCR >> MSTR)&0x01)) SPI_init();
-	set_pIC_RegValue(AdjStart, 0x56, 0x78);
+	
+	set_pIC_RegValue(CalStart, 0x5678);
+	set_pIC_RegValue(PLconstH, 0x0015);
+	set_pIC_RegValue(PLconstL, 0xD174);
+	set_pIC_RegValue(Lgain, 0x0000);
+	set_pIC_RegValue(Lphi, 0x0000);
+	set_pIC_RegValue(Ngain, 0x0000);
+	set_pIC_RegValue(Nphi, 0x0000);
+	set_pIC_RegValue(PStartTh, 0x08BD);
+	set_pIC_RegValue(PNolTH, 0x0000);
+	set_pIC_RegValue(QStartTh, 0x0AEC);
+	set_pIC_RegValue(QNolTH, 0x0000);
+	set_pIC_RegValue(MMode, 0x9422);
+	set_pIC_RegValue(CS1, 0x0000);
+	
+	
+	set_pIC_RegValue(AdjStart, 0x5678);
+	/*
+	set_pIC_RegValue(Ugain, 0x6720);
+	set_pIC_RegValue(IgainL, 0x7A13);
+	set_pIC_RegValue(IgainN, 0x7530);
+	set_pIC_RegValue(Uoffset, 0x0000);
+	set_pIC_RegValue(IoffsetL, 0x0000);
+	set_pIC_RegValue(IoffsetN, 0x0000);
+	set_pIC_RegValue(PoffsetL, 0x0000);
+	set_pIC_RegValue(QoffsetL, 0x0000);
+	set_pIC_RegValue(PoffsetN, 0x0000);
+	set_pIC_RegValue(QoffsetN, 0x0000);
+	set_pIC_RegValue(CS2, 0x0000);
+	*/
 	
 }
 
@@ -47,12 +76,14 @@ uint16_t get_pIC_RegValue(uint8_t pICRegister){
 	
 }
 
-void set_pIC_RegValue(uint8_t pICRegister, uint8_t highByte, uint8_t lowByte){
+void set_pIC_RegValue(uint8_t pICRegister, uint16_t byte){
 	
 	//send AND write Byte with register Byte to write 16 bit value into register.
 	
 	PORTB &= ~(1<<0); // set chip select bit low to initiate SPI communication. 
 	SPI_tradeByte(WriteRegPower | pICRegister); // AND write Byte with register address and send it over SPI.
+	uint8_t highByte = (byte>>8);
+	uint8_t lowByte = byte & ~(0xff<<8);
 	SPI_tradeByte(highByte); // Write MSD Byte first.
 	SPI_tradeByte(lowByte); // Write LSD Byte second.
 	PORTB |= (1<<0); // set chip select bit high to terminate SPI communication.
@@ -63,5 +94,104 @@ void set_pIC_RegValue(uint8_t pICRegister, uint8_t highByte, uint8_t lowByte){
 	//printHexByte(highBit);
 	//printHexByte(lowBit);
 	//printString("H\r\n");
+	
+}
+
+void printVoltage(uint16_t word){
+	transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	printString("."); //
+	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+	transmitByte('0' + (word % 10));                             /* Ones */
+}
+
+void printCurrent(uint16_t word){
+	transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+	printString("."); //
+	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+	transmitByte('0' + (word % 10));                             /* Ones */
+}
+
+void printPower(int16_t word){
+	if(word>>15){
+		word &= ~(1UL<<16);
+		printString("-");
+		word ^= (0xffff & ~(1UL<<16));
+		word++;
+		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		printString("."); //
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	else{
+		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		printString("."); //
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	
+}
+
+void printFrequency(uint16_t word){
+	//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	printString("."); //
+	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+	transmitByte('0' + (word % 10));                             /* Ones */
+}
+
+void printPowerFactor(int16_t word){
+	if(word>>15){
+		word &= ~(1UL<<16);
+		printString("-");
+		//word ^= (0xffff & ~(1UL<<16));
+		//word++;
+		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		printString("."); //
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	else{
+		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		printString("."); //
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	
+}
+
+void printPhaseAngle(int16_t word){
+	if(word>>15){
+		word &= ~(1UL<<16);
+		printString("-");
+		//word ^= (0xffff & ~(1UL<<16));
+		//word++;
+		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		printString("."); //
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	else{
+		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		printString("."); //
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
 	
 }

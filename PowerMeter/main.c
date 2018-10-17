@@ -252,16 +252,18 @@ void print_power_data(void){
 	//printString("Measurement Calibration start: \r\n");
 	//printWord(get_pIC_RegValue(AdjStart));
 	printString("Voltage: ");
-	printWord(get_pIC_RegValue(Urms));
+	printVoltage(get_pIC_RegValue(Urms));
 	printString("\tCurrent: ");
-	printWord(get_pIC_RegValue(Irms));
+	printCurrent(get_pIC_RegValue(Irms));
 	printString("\t Active Power: ");
-	printSignedWord(get_pIC_RegValue(Pmean));
+	printPower(get_pIC_RegValue(Pmean));
 	printString("\r\n");
-	printString("\tFrequency: ");
-	printWord(get_pIC_RegValue(Freq));
+	printString("Frequency: ");
+	printFrequency(get_pIC_RegValue(Freq));
 	printString("\tPower Factor: ");
-	printSignedWord(get_pIC_RegValue(PowerF));
+	printPowerFactor(get_pIC_RegValue(PowerF));
+	printString("\tPhase Angle: ");
+	printPhaseAngle(get_pIC_RegValue(Pangle));
 	printString("\r\n\n");
 	
 }
