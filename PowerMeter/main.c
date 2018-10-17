@@ -256,12 +256,12 @@ void print_power_data(void){
 	printString("\tCurrent: ");
 	printWord(get_pIC_RegValue(Irms));
 	printString("\t Active Power: ");
-	printWord(get_pIC_RegValue(Pmean));
+	printSignedWord(get_pIC_RegValue(Pmean));
 	printString("\r\n");
 	printString("\tFrequency: ");
 	printWord(get_pIC_RegValue(Freq));
 	printString("\tPower Factor: ");
-	printWord(get_pIC_RegValue(PowerF));
+	printSignedWord(get_pIC_RegValue(PowerF));
 	printString("\r\n\n");
 	
 }

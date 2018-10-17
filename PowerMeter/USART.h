@@ -40,7 +40,7 @@ void printByte(uint8_t byte);
                   /* Prints a byte out as its 3-digit ascii equivalent */
 void printWord(uint16_t word);
         /* Prints a word (16-bits) out as its 5-digit ascii equivalent */
-
+void printSignedWord(int16_t word);
 void printBinaryByte(uint8_t byte);
                                      /* Prints a byte out in 1s and 0s */
 char nibbleToHex(uint8_t nibble);

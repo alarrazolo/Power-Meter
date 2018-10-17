@@ -91,12 +91,36 @@ void printByte(uint8_t byte) {
 }
 
 void printWord(uint16_t word) {
-  transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-  transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-  printString("."); // 
-  transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-  transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-  transmitByte('0' + (word % 10));                             /* Ones */
+	  transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+	  transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+	  //printString("."); //
+	  transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	  transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+	  transmitByte('0' + (word % 10));                             /* Ones */
+}
+
+void printSignedWord(int16_t word){
+	if(word>>15){
+		word &= ~(1UL<<16);
+		printString("-");
+		//word ^= (0xffff & ~(1UL<<16));
+		//word++;
+		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		//printString("."); //
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	else{
+		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		//printString("."); //
+		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		transmitByte('0' + (word % 10));                             /* Ones */
+	}
+	
 }
 
 void printBinaryByte(uint8_t byte) {
