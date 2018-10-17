@@ -103,8 +103,8 @@ void printSignedWord(int16_t word){
 	if(word>>15){
 		word &= ~(1UL<<16);
 		printString("-");
-		//word ^= (0xffff & ~(1UL<<16));
-		//word++;
+		word ^= (0xffff & ~(1UL<<16));
+		word++;
 		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
 		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
 		//printString("."); //

@@ -71,7 +71,7 @@ int main(void)
     {
 		
 		if (send_message){
-			//print_power_data();
+			print_power_data();
 			send_message = false;
 		}
 		

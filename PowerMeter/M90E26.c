@@ -24,7 +24,7 @@ void pIC_Start(void){
 	PORTB |= (1<<0);
 	
 	if(!((SPCR >> MSTR)&0x01)) SPI_init();
-	//set_pIC_RegValue(AdjStart, 0x56, 0x78);
+	set_pIC_RegValue(AdjStart, 0x56, 0x78);
 	
 }
 
