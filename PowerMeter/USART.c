@@ -99,6 +99,13 @@ void printWord(uint16_t word) {
 	  transmitByte('0' + (word % 10));                             /* Ones */
 }
 
+void printHexWord(uint16_t word){
+	printHexByte(word>>8);
+	printHexByte(word & ~(0xff<<8));
+	printString("H");
+	
+}
+
 void printSignedWord(int16_t word){
 	if(word>>15){
 		word &= ~(1UL<<16);

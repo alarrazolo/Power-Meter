@@ -57,4 +57,6 @@ void printPowerFactor(int16_t word);
 
 void printPhaseAngle(int16_t word);
 
+void printEnergy(uint16_t word);
+
 #endif /* M90E26_H_ */

@@ -17,7 +17,7 @@ void SPI_init(void){
 	SPCR &= ~_BV(CPHA);
 	// Clock 2X speed
 	//SPCR &= ~_BV(SPR0);
-	SPCR |= _BV(SPR0);
+	SPCR |=_BV(SPR0);
 	SPCR &= ~_BV(SPR1);
 	//SPSR |= _BV(SPI2X);
 	SPSR &= ~_BV(SPI2X);

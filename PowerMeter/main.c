@@ -66,13 +66,27 @@ int main(void)
 	//print_RF_settings();
 	
 	print_power_IC_settings();
+	//set_pIC_RegValue(SmallPMod, 0xA987);
+	int counter=0;
+	
+	//print_power_data();
+	int kWh = 0;
 	
     while (1) 
     {
 		
 		if (send_message){
 			print_power_data();
+			kWh += get_pIC_RegValue(ATenergy);
+			printEnergy(kWh);
+			printString("\r\n");
 			send_message = false;
+			if (counter < 5){
+				//printHexWord(get_pIC_RegValue(Pmean));
+				//printString("\r\n");
+				counter++;
+			}
+			//else set_pIC_RegValue(SmallPMod, 0x0000);
 		}
 		
 		/*
@@ -214,35 +228,35 @@ void print_power_IC_settings(void){
 	printString("\r\n");
 	
 	printString("System Status: ");
-	printWord(get_pIC_RegValue(SysStatus));
+	printHexWord(get_pIC_RegValue(SysStatus));
 	printString("\r\n");
 	
 	printString("Metering Status: ");
-	printWord(get_pIC_RegValue(EnStatus));
+	printHexWord(get_pIC_RegValue(EnStatus));
 	printString("\r\n");
 	
 	printString("Metering Mode: ");
-	printWord(get_pIC_RegValue(MMode));
+	printHexWord(get_pIC_RegValue(MMode));
 	printString("\r\n");
 	
 	printString("Checksum 1: ");
-	printWord(get_pIC_RegValue(CS1));
+	printHexWord(get_pIC_RegValue(CS1));
 	printString("\r\n");
 	
 	printString("Checksum 2: ");
-	printWord((get_pIC_RegValue(CS2)));
+	printHexWord((get_pIC_RegValue(CS2)));
 	printString("\r\n");
 	
 	printString("Measurement Calibration Start Command: ");
-	printWord((get_pIC_RegValue(AdjStart)));
+	printHexWord((get_pIC_RegValue(AdjStart)));
 	printString("\r\n");
 	
 	printString("Voltage RMS Gain: ");
-	printWord((get_pIC_RegValue(Ugain)));
+	printHexWord((get_pIC_RegValue(Ugain)));
 	printString("\r\n");
 	
 	printString("L Line Current RMS Gain: ");
-	printWord((get_pIC_RegValue(IgainL)));
+	printHexWord((get_pIC_RegValue(IgainL)));
 	printString("\r\n");
 	
 }
@@ -253,10 +267,8 @@ void print_power_data(void){
 	//printWord(get_pIC_RegValue(AdjStart));
 	printString("Voltage: ");
 	printVoltage(get_pIC_RegValue(Urms));
-	printString("\tCurrent: ");
+	printString("\t\tCurrent: ");
 	printCurrent(get_pIC_RegValue(Irms));
-	printString("\t Active Power: ");
-	printPower(get_pIC_RegValue(Pmean));
 	printString("\r\n");
 	printString("Frequency: ");
 	printFrequency(get_pIC_RegValue(Freq));
@@ -264,6 +276,12 @@ void print_power_data(void){
 	printPowerFactor(get_pIC_RegValue(PowerF));
 	printString("\tPhase Angle: ");
 	printPhaseAngle(get_pIC_RegValue(Pangle));
+	printString("\n\rActive Power: ");
+	printPower(get_pIC_RegValue(Pmean));
+	printString("\tReactive Power: ");
+	printPower(get_pIC_RegValue(Qmean));
+	printString("\tAbsolute Power: ");
+	printPower(get_pIC_RegValue(Smean));
 	printString("\r\n\n");
 	
 }

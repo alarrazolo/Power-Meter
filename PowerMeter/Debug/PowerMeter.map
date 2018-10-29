@@ -3,7 +3,7 @@ Archive member included to satisfy reference by file (symbol)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
                               M90E26.o (__divmodhi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o (exit)
+                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o (exit)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_copy_data.o)
                               M90E26.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_clear_bss.o)
@@ -23,8 +23,8 @@ __flp               0x2               c:/program files (x86)/atmel/studio/7.0/to
 
 Discarded input sections
 
- .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .text          0x00000000        0x0 i2c_RTC_DS1307.o
  .data          0x00000000        0x0 i2c_RTC_DS1307.o
  .bss           0x00000000        0x0 i2c_RTC_DS1307.o
@@ -107,16 +107,12 @@ Discarded input sections
                 0x00000000       0x60 USART.o
  .text.printByteString
                 0x00000000       0x2c USART.o
- .rodata.str1.1
-                0x00000000        0x2 USART.o
+ .text.printWord
+                0x00000000      0x15c USART.o
  .text.printSignedWord
                 0x00000000       0xf2 USART.o
  .text.printBinaryByte
                 0x00000000       0x40 USART.o
- .text.nibbleToHexCharacter
-                0x00000000        0xc USART.o
- .text.printHexByte
-                0x00000000       0x20 USART.o
  .text.getNumber
                 0x00000000       0x48 USART.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
@@ -227,7 +223,7 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 Address of section .data set to 0x800100
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
 LOAD i2c_RTC_DS1307.o
 LOAD M90E26.o
 LOAD main.o
@@ -241,7 +237,7 @@ START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5\libatmega328p.a
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5\libatmega328p.a
 END GROUP
                 0x00020000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
                 0x0000ffa0                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
@@ -341,9 +337,9 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x11f6
+.text           0x00000000     0x133a
  *(.vectors)
- .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
                 0x00000000                __vectors
  *(.vectors)
@@ -371,13 +367,13 @@ END GROUP
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000068        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init0         0x00000068        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000068                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000068        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init2         0x00000068        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  *(.init2)
  *(.init3)
  *(.init3)
@@ -396,10 +392,10 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x0000009a        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init9         0x0000009a        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  *(.init9)
  *(.text)
- .text          0x000000a2        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .text          0x000000a2        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x000000a2                __vector_22
                 0x000000a2                __vector_24
                 0x000000a2                __vector_12
@@ -435,98 +431,107 @@ END GROUP
                 0x000000e4       0x22 M90E26.o
                 0x000000e4                set_pIC_RegValue
  .text.pIC_Start
-                0x00000106       0x9a M90E26.o
+                0x00000106      0x138 M90E26.o
                 0x00000106                pIC_Start
  .text.printVoltage
-                0x000001a0      0x164 M90E26.o
-                0x000001a0                printVoltage
+                0x0000023e      0x164 M90E26.o
+                0x0000023e                printVoltage
  .text.printCurrent
-                0x00000304      0x164 M90E26.o
-                0x00000304                printCurrent
+                0x000003a2      0x164 M90E26.o
+                0x000003a2                printCurrent
  .text.printPower
-                0x00000468      0x104 M90E26.o
-                0x00000468                printPower
+                0x00000506      0x104 M90E26.o
+                0x00000506                printPower
  .text.printFrequency
-                0x0000056c      0x13c M90E26.o
-                0x0000056c                printFrequency
+                0x0000060a      0x13c M90E26.o
+                0x0000060a                printFrequency
  .text.printPowerFactor
-                0x000006a8       0xd8 M90E26.o
-                0x000006a8                printPowerFactor
+                0x00000746       0xda M90E26.o
+                0x00000746                printPowerFactor
  .text.printPhaseAngle
-                0x00000780       0xd8 M90E26.o
-                0x00000780                printPhaseAngle
+                0x00000820       0xde M90E26.o
+                0x00000820                printPhaseAngle
+ .text.printEnergy
+                0x000008fe      0x164 M90E26.o
+                0x000008fe                printEnergy
  .text.setup_rf
-                0x00000858       0x50 main.o
-                0x00000858                setup_rf
+                0x00000a62       0x50 main.o
+                0x00000a62                setup_rf
  .text.setup_timer
-                0x000008a8       0x28 main.o
-                0x000008a8                setup_timer
+                0x00000ab2       0x28 main.o
+                0x00000ab2                setup_timer
  .text.print_power_IC_settings
-                0x000008d0       0xe2 main.o
-                0x000008d0                print_power_IC_settings
+                0x00000ada       0xe2 main.o
+                0x00000ada                print_power_IC_settings
  .text.print_power_data
-                0x000009b2       0x7e main.o
-                0x000009b2                print_power_data
- .text.main     0x00000a30       0x38 main.o
-                0x00000a30                main
+                0x00000bbc       0xa2 main.o
+                0x00000bbc                print_power_data
+ .text.main     0x00000c5e       0x62 main.o
+                0x00000c5e                main
  .text.__vector_11
-                0x00000a68       0x1e main.o
-                0x00000a68                __vector_11
+                0x00000cc0       0x1e main.o
+                0x00000cc0                __vector_11
  .text.__vector_1
-                0x00000a86       0x1e main.o
-                0x00000a86                __vector_1
+                0x00000cde       0x1e main.o
+                0x00000cde                __vector_1
  .text.nRF24L01_init
-                0x00000aa4       0x14 nrf24l01.o
-                0x00000aa4                nRF24L01_init
+                0x00000cfc       0x14 nrf24l01.o
+                0x00000cfc                nRF24L01_init
  .text.nRF24L01_send_command
-                0x00000ab8       0x94 nrf24l01.o
-                0x00000ab8                nRF24L01_send_command
+                0x00000d10       0x94 nrf24l01.o
+                0x00000d10                nRF24L01_send_command
  .text.nRF24L01_write_register
-                0x00000b4c        0x8 nrf24l01.o
-                0x00000b4c                nRF24L01_write_register
+                0x00000da4        0x8 nrf24l01.o
+                0x00000da4                nRF24L01_write_register
  .text.nRF24L01_clear_interrupts
-                0x00000b54       0x26 nrf24l01.o
-                0x00000b54                nRF24L01_clear_interrupts
+                0x00000dac       0x26 nrf24l01.o
+                0x00000dac                nRF24L01_clear_interrupts
  .text.nRF24L01_begin
-                0x00000b7a      0x1d0 nrf24l01.o
-                0x00000b7a                nRF24L01_begin
+                0x00000dd2      0x1d0 nrf24l01.o
+                0x00000dd2                nRF24L01_begin
  .text.SPI_init
-                0x00000d4a       0x32 SPI.o
-                0x00000d4a                SPI_init
+                0x00000fa2       0x32 SPI.o
+                0x00000fa2                SPI_init
  .text.SPI_tradeByte
-                0x00000d7c        0xc SPI.o
-                0x00000d7c                SPI_tradeByte
+                0x00000fd4        0xc SPI.o
+                0x00000fd4                SPI_tradeByte
  .text.initUSART
-                0x00000d88       0x22 USART.o
-                0x00000d88                initUSART
+                0x00000fe0       0x22 USART.o
+                0x00000fe0                initUSART
  .text.transmitByte
-                0x00000daa       0x10 USART.o
-                0x00000daa                transmitByte
+                0x00001002       0x10 USART.o
+                0x00001002                transmitByte
  .text.printString
-                0x00000dba       0x2c USART.o
-                0x00000dba                printString
- .text.printWord
-                0x00000de6      0x15c USART.o
-                0x00000de6                printWord
+                0x00001012       0x2c USART.o
+                0x00001012                printString
+ .text.nibbleToHexCharacter
+                0x0000103e        0xc USART.o
+                0x0000103e                nibbleToHexCharacter
+ .text.printHexByte
+                0x0000104a       0x20 USART.o
+                0x0000104a                printHexByte
+ .text.printHexWord
+                0x0000106a       0x1c USART.o
+                0x0000106a                printHexWord
  .text.libgcc.div
-                0x00000f42       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
-                0x00000f42                _div
-                0x00000f42                __divmodhi4
+                0x00001086       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
+                0x00001086                _div
+                0x00001086                __divmodhi4
  .text.libgcc.mul
-                0x00000f6a       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
-                0x00000f6a                __umulhisi3
+                0x000010ae       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
+                0x000010ae                __umulhisi3
  .text.libgcc.div
-                0x00000f88       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
-                0x00000f88                __udivmodhi4
+                0x000010cc       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
+                0x000010cc                __udivmodhi4
  .text.avr-libc
-                0x00000fb0      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                0x00000fb0                malloc
-                0x000010e0                free
-                0x000011f2                . = ALIGN (0x2)
+                0x000010f4      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+                0x000010f4                malloc
+                0x00001224                free
+                0x00001336                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000011f2        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x000011f2                _exit
-                0x000011f2                exit
+ .fini9         0x00001336        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00001336                _exit
+                0x00001336                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -545,11 +550,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000011f2        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00001336        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000011f6                _etext = .
+                0x0000133a                _etext = .
 
-.data           0x00800100      0x160 load address 0x000011f6
+.data           0x00800100      0x186 load address 0x0000133a
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
@@ -563,38 +568,40 @@ END GROUP
  .rodata.str1.1
                 0x00800106        0x4 M90E26.o
  .rodata.str1.1
-                0x0080010a      0x155 main.o
-                                0x15a (size before relaxing)
+                0x0080010a      0x17a main.o
+                                0x17f (size before relaxing)
+ .rodata.str1.1
+                0x00800284        0x2 USART.o
+                                  0x4 (size before relaxing)
  *(.gnu.linkonce.r*)
-                0x00800260                . = ALIGN (0x2)
- *fill*         0x0080025f        0x1 
-                0x00800260                _edata = .
-                0x00800260                PROVIDE (__data_end, .)
+                0x00800286                . = ALIGN (0x2)
+                0x00800286                _edata = .
+                0x00800286                PROVIDE (__data_end, .)
 
-.bss            0x00800260        0x6
-                0x00800260                PROVIDE (__bss_start, .)
+.bss            0x00800286        0x6
+                0x00800286                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.send_message
-                0x00800260        0x1 main.o
-                0x00800260                send_message
+                0x00800286        0x1 main.o
+                0x00800286                send_message
  .bss.rf_interrupt
-                0x00800261        0x1 main.o
-                0x00800261                rf_interrupt
+                0x00800287        0x1 main.o
+                0x00800287                rf_interrupt
  *(COMMON)
- COMMON         0x00800262        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                0x00800262                __brkval
-                0x00800264                __flp
-                0x00800266                PROVIDE (__bss_end, .)
-                0x000011f6                __data_load_start = LOADADDR (.data)
-                0x00001356                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800288        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+                0x00800288                __brkval
+                0x0080028a                __flp
+                0x0080028c                PROVIDE (__bss_end, .)
+                0x0000133a                __data_load_start = LOADADDR (.data)
+                0x000014c0                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800266        0x0
+.noinit         0x0080028c        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800266                _end = .
-                0x00800266                PROVIDE (__heap_start, .)
+                0x0080028c                _end = .
+                0x0080028c                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -647,7 +654,7 @@ END GROUP
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
  .note.gnu.avr.deviceinfo
-                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -664,87 +671,87 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x288
+.debug_aranges  0x00000000      0x298
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x50 i2c_RTC_DS1307.o
  .debug_aranges
-                0x00000050       0x68 M90E26.o
+                0x00000050       0x70 M90E26.o
  .debug_aranges
-                0x000000b8       0x68 main.o
+                0x000000c0       0x68 main.o
  .debug_aranges
-                0x00000120       0xc0 nrf24l01.o
+                0x00000128       0xc0 nrf24l01.o
  .debug_aranges
-                0x000001e0       0x28 SPI.o
+                0x000001e8       0x28 SPI.o
  .debug_aranges
-                0x00000208       0x80 USART.o
+                0x00000210       0x88 USART.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x3345
+.debug_info     0x00000000     0x36f3
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4      0x15d i2c_RTC_DS1307.o
- .debug_info    0x00000751      0x897 M90E26.o
- .debug_info    0x00000fe8      0xc94 main.o
- .debug_info    0x00001c7c     0x1101 nrf24l01.o
- .debug_info    0x00002d7d       0xad SPI.o
- .debug_info    0x00002e2a      0x51b USART.o
+ .debug_info    0x00000751      0xaf6 M90E26.o
+ .debug_info    0x00001247      0xd84 main.o
+ .debug_info    0x00001fcb     0x1101 nrf24l01.o
+ .debug_info    0x000030cc       0xad SPI.o
+ .debug_info    0x00003179      0x57a USART.o
 
 .debug_abbrev   0x00000000      0xdb9
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2       0xb9 i2c_RTC_DS1307.o
- .debug_abbrev  0x0000065b      0x160 M90E26.o
- .debug_abbrev  0x000007bb      0x205 main.o
+ .debug_abbrev  0x0000065b      0x146 M90E26.o
+ .debug_abbrev  0x000007a1      0x21f main.o
  .debug_abbrev  0x000009c0      0x22f nrf24l01.o
  .debug_abbrev  0x00000bef       0x7a SPI.o
  .debug_abbrev  0x00000c69      0x150 USART.o
 
-.debug_line     0x00000000     0x146b
+.debug_line     0x00000000     0x1584
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000133      0x17b i2c_RTC_DS1307.o
- .debug_line    0x000002ae      0x3b4 M90E26.o
- .debug_line    0x00000662      0x468 main.o
- .debug_line    0x00000aca      0x555 nrf24l01.o
- .debug_line    0x0000101f       0xf6 SPI.o
- .debug_line    0x00001115      0x356 USART.o
+ .debug_line    0x000002ae      0x462 M90E26.o
+ .debug_line    0x00000710      0x4aa main.o
+ .debug_line    0x00000bba      0x555 nrf24l01.o
+ .debug_line    0x0000110f       0xf6 SPI.o
+ .debug_line    0x00001205      0x37f USART.o
 
-.debug_frame    0x00000000      0x720
+.debug_frame    0x00000000      0x768
  *(.debug_frame)
  .debug_frame   0x00000000       0x84 i2c_RTC_DS1307.o
- .debug_frame   0x00000084      0x140 M90E26.o
- .debug_frame   0x000001c4      0x104 main.o
- .debug_frame   0x000002c8      0x298 nrf24l01.o
- .debug_frame   0x00000560       0x34 SPI.o
- .debug_frame   0x00000594      0x18c USART.o
+ .debug_frame   0x00000084      0x170 M90E26.o
+ .debug_frame   0x000001f4      0x104 main.o
+ .debug_frame   0x000002f8      0x298 nrf24l01.o
+ .debug_frame   0x00000590       0x34 SPI.o
+ .debug_frame   0x000005c4      0x1a4 USART.o
 
-.debug_str      0x00000000      0x93f
+.debug_str      0x00000000      0x9c3
  *(.debug_str)
- .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x197 i2c_RTC_DS1307.o
                                 0x1d0 (size before relaxing)
- .debug_str     0x0000039f      0x12d M90E26.o
-                                0x2a5 (size before relaxing)
- .debug_str     0x000004cc      0x14f main.o
-                                0x3b2 (size before relaxing)
- .debug_str     0x0000061b      0x267 nrf24l01.o
+ .debug_str     0x0000039f      0x19c M90E26.o
+                                0x2ce (size before relaxing)
+ .debug_str     0x0000053b      0x164 main.o
+                                0x3d2 (size before relaxing)
+ .debug_str     0x0000069f      0x267 nrf24l01.o
                                 0x46c (size before relaxing)
- .debug_str     0x00000882        0xb SPI.o
-                                0x187 (size before relaxing)
- .debug_str     0x0000088d       0xb2 USART.o
-                                0x27b (size before relaxing)
+ .debug_str     0x00000906        0xb SPI.o
+                                0x186 (size before relaxing)
+ .debug_str     0x00000911       0xb2 USART.o
+                                0x287 (size before relaxing)
 
-.debug_loc      0x00000000     0x1b45
+.debug_loc      0x00000000     0x1cf6
  *(.debug_loc)
  .debug_loc     0x00000000       0x2d i2c_RTC_DS1307.o
- .debug_loc     0x0000002d      0x4d3 M90E26.o
- .debug_loc     0x00000500      0x201 main.o
- .debug_loc     0x00000701      0xd6a nrf24l01.o
- .debug_loc     0x0000146b       0x1f SPI.o
- .debug_loc     0x0000148a      0x6bb USART.o
+ .debug_loc     0x0000002d      0x5f4 M90E26.o
+ .debug_loc     0x00000621      0x249 main.o
+ .debug_loc     0x0000086a      0xd6a nrf24l01.o
+ .debug_loc     0x000015d4       0x1f SPI.o
+ .debug_loc     0x000015f3      0x703 USART.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -764,14 +771,14 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x228
+.debug_ranges   0x00000000      0x238
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x40 i2c_RTC_DS1307.o
- .debug_ranges  0x00000040       0x58 M90E26.o
- .debug_ranges  0x00000098       0x58 main.o
- .debug_ranges  0x000000f0       0xb0 nrf24l01.o
- .debug_ranges  0x000001a0       0x18 SPI.o
- .debug_ranges  0x000001b8       0x70 USART.o
+ .debug_ranges  0x00000040       0x60 M90E26.o
+ .debug_ranges  0x000000a0       0x58 main.o
+ .debug_ranges  0x000000f8       0xb0 nrf24l01.o
+ .debug_ranges  0x000001a8       0x18 SPI.o
+ .debug_ranges  0x000001c0       0x78 USART.o
 
 .debug_macro
  *(.debug_macro)

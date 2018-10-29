@@ -26,8 +26,8 @@ void pIC_Start(void){
 	if(!((SPCR >> MSTR)&0x01)) SPI_init();
 	
 	set_pIC_RegValue(CalStart, 0x5678);
-	set_pIC_RegValue(PLconstH, 0x0015);
-	set_pIC_RegValue(PLconstL, 0xD174);
+	set_pIC_RegValue(PLconstH, 0x0030);
+	set_pIC_RegValue(PLconstL, 0xB3D3);
 	set_pIC_RegValue(Lgain, 0x0000);
 	set_pIC_RegValue(Lphi, 0x0000);
 	set_pIC_RegValue(Ngain, 0x0000);
@@ -36,14 +36,17 @@ void pIC_Start(void){
 	set_pIC_RegValue(PNolTH, 0x0000);
 	set_pIC_RegValue(QStartTh, 0x0AEC);
 	set_pIC_RegValue(QNolTH, 0x0000);
-	set_pIC_RegValue(MMode, 0x9422);
-	set_pIC_RegValue(CS1, 0x0000);
+	set_pIC_RegValue(MMode, 0x3422);
+	uint16_t calibrationCS1 = get_pIC_RegValue(CS1);
+	set_pIC_RegValue(CS1, calibrationCS1);
+	set_pIC_RegValue(CalStart, 0x8765);
+	
 	
 	
 	set_pIC_RegValue(AdjStart, 0x5678);
-	/*
-	set_pIC_RegValue(Ugain, 0x6720);
-	set_pIC_RegValue(IgainL, 0x7A13);
+	
+	set_pIC_RegValue(Ugain, 0x8561);
+	set_pIC_RegValue(IgainL, 0x3D1C);
 	set_pIC_RegValue(IgainN, 0x7530);
 	set_pIC_RegValue(Uoffset, 0x0000);
 	set_pIC_RegValue(IoffsetL, 0x0000);
@@ -52,9 +55,13 @@ void pIC_Start(void){
 	set_pIC_RegValue(QoffsetL, 0x0000);
 	set_pIC_RegValue(PoffsetN, 0x0000);
 	set_pIC_RegValue(QoffsetN, 0x0000);
+	uint16_t calibrationCS2 = get_pIC_RegValue(CS2);
 	set_pIC_RegValue(CS2, 0x0000);
-	*/
+	set_pIC_RegValue(CS2, calibrationCS2);
+	set_pIC_RegValue(AdjStart, 0x8765);
 	
+	//set_pIC_RegValue(CalStart, 0x5678);
+	//set_pIC_RegValue(AdjStart, 0x5678);
 }
 
 
@@ -117,9 +124,10 @@ void printCurrent(uint16_t word){
 
 void printPower(int16_t word){
 	if(word>>15){
-		word &= ~(1UL<<16);
+		//word &= ~(1UL<<15);
 		printString("-");
-		word ^= (0xffff & ~(1UL<<16));
+		//word ^= (0xffff & ~(1UL<<15));
+		word ^= 0xffff;
 		word++;
 		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
 		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
@@ -150,7 +158,7 @@ void printFrequency(uint16_t word){
 
 void printPowerFactor(int16_t word){
 	if(word>>15){
-		word &= ~(1UL<<16);
+		word &= ~(1UL<<15);
 		printString("-");
 		//word ^= (0xffff & ~(1UL<<16));
 		//word++;
@@ -174,10 +182,11 @@ void printPowerFactor(int16_t word){
 
 void printPhaseAngle(int16_t word){
 	if(word>>15){
-		word &= ~(1UL<<16);
+		//word &= ~(1UL<<15);
 		printString("-");
-		//word ^= (0xffff & ~(1UL<<16));
-		//word++;
+		//word ^= (0xffff & ~(1UL<<15));
+		word ^= 0xffff;
+		word++;
 		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
 		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
 		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
@@ -194,4 +203,13 @@ void printPhaseAngle(int16_t word){
 		transmitByte('0' + (word % 10));                             /* Ones */
 	}
 	
+}
+
+void printEnergy(uint16_t word){
+	transmitByte('0' + (word / 10000));                 /* Ten-thousands */
+	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+	printString("."); //
+	transmitByte('0' + (word % 10));                             /* Ones */
 }
