@@ -2,7 +2,9 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-i2c_RTC_DS1307.c
+i2c.c
+
+lcd_4x20_i2c.c
 
 M90E26.c
 

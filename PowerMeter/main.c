@@ -20,7 +20,8 @@
 #include "USART.h"
 #include "nrf24l01.h"
 #include "nrf24l01-mnemonics.h"
-#include "i2c_RTC_DS1307.h"
+#include "i2c.h"
+#include "lcd_4x20_i2c.h"
 #include "M90E26.h"
 #include "M90E26_Pins.h"
 
@@ -50,6 +51,7 @@ int main(void)
 {
 	initUSART();
 	initI2C();
+	initLCD();
 	SPI_init();
 	
 	//bool on = false;
@@ -61,7 +63,11 @@ int main(void)
 	pIC_Start();
 	setup_timer();
 	
-	printString("Starting Program!\r\n");
+	clear_lcd();
+	set_cursor(0,0);
+	lcd_print_string("Starting Program!");
+	//printString("Starting Program!\r\n");
+	
 	
 	//print_RF_settings();
 	
@@ -130,18 +136,18 @@ int main(void)
 nRF24L01 *setup_rf(void) {
 	nRF24L01 *rf = nRF24L01_init();
 	rf->ss.port = &PORTB;
-	rf->ss.pin = PB2;
+	rf->ss.pin = PORTB2;
 	rf->ce.port = &PORTB;
-	rf->ce.pin = PB1;
+	rf->ce.pin = PORTB1;
 	rf->sck.port = &PORTB;
-	rf->sck.pin = PB5;
+	rf->sck.pin = PORTB5;
 	rf->mosi.port = &PORTB;
-	rf->mosi.pin = PB3;
+	rf->mosi.pin = PORTB3;
 	rf->miso.port = &PORTB;
-	rf->miso.pin = PB4;
+	rf->miso.pin = PORTB4;
 	// interrupt on falling edge of INT0 (PD2)
-	EICRA |= _BV(ISC01);
-	EIMSK |= _BV(INT0);
+	EICRA |= (1 << ISC01);
+	EIMSK |= (1 << INT0);
 	nRF24L01_begin(rf);
 	return rf;
 }
@@ -149,26 +155,26 @@ nRF24L01 *setup_rf(void) {
 m90E26 *setup_powerIC(void) {
 	m90E26 *pIC = powerIC_init();
 	pIC->ce.port = &PORTB;
-	pIC->ce.pin = PB0;
+	pIC->ce.pin = PORTB0;
 	pIC->sck.port = &PORTB;
-	pIC->sck.pin = PB5;
+	pIC->sck.pin = PORTB5;
 	pIC->mosi.port = &PORTB;
-	pIC->mosi.pin = PB3;
+	pIC->mosi.pin = PORTB3;
 	pIC->miso.port = &PORTB;
-	pIC->miso.pin = PB4;
+	pIC->miso.pin = PORTB4;
 	//nRF24L01_begin(rf);
 	return pIC;
 }
 
 // setup timer to trigger interrupt every second when at 1MHz
 void setup_timer(void) {
-	TCCR1B |= _BV(WGM12);
-	TIMSK1 |= _BV(OCIE1A);
+	TCCR1B |= (1 << WGM12);
+	TIMSK1 |= (1 << OCIE1A);
 	//OCR1A = 15624; // for 1MHz Clock
 	OCR1A = 31250;  // for 8MHz Clock
 	//OCR1A = 250000;  // for 16 MHz Clock
 	//TCCR1B |= _BV(CS10) | _BV(CS11);
-	TCCR1B |= _BV(CS12);
+	TCCR1B |= (1 << CS12);
 	//changed timer to every 4 seconds
 	//TCCR1B |= _BV(CS12);
 	
