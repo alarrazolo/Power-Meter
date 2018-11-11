@@ -76,12 +76,11 @@ int main(void)
 	lcd_print_string("Starting Program!");
 	//printString("Starting Program!\r\n");
 	
-	
-	
-	
 	//print_RF_settings();
 	
-	print_power_IC_settings();
+	//print_power_IC_settings();
+	//lcd_print_power_IC_settings();
+	
 	//set_pIC_RegValue(SmallPMod, 0xA987);
 	int counter = 0;
 	
@@ -92,7 +91,10 @@ int main(void)
     {
 		
 		if (send_message){
+			lcd_print_power_data();
 			print_power_data();
+			//print_time();
+			//printString("Hello");
 			kWh += get_pIC_RegValue(ATenergy);
 			//printEnergy(kWh);
 			//printString("\r\n");
@@ -180,11 +182,11 @@ m90E26 *setup_powerIC(void) {
 void setup_timer(void) {
 	TCCR1B |= (1 << WGM12);
 	TIMSK1 |= (1 << OCIE1A);
-	//OCR1A = 15624; // for 1MHz Clock
-	OCR1A = 31250;  // for 8MHz Clock
+	OCR1A = 15624; // for 1MHz Clock
+	//OCR1A = 31250;  // for 8MHz Clock
 	//OCR1A = 250000;  // for 16 MHz Clock
-	//TCCR1B |= _BV(CS10) | _BV(CS11);
-	TCCR1B |= (1 << CS12);
+	TCCR1B |= _BV(CS10) | _BV(CS11);
+	//TCCR1B |= (1 << CS12);
 	//changed timer to every 4 seconds
 	//TCCR1B |= _BV(CS12);
 	
@@ -204,10 +206,12 @@ void print_RF_settings(void){
 
 void lcd_print_RF_settings(void){
 	
-	lcd_print_string("Transmitting on Channel: ");
+	clear_lcd();
+	lcd_print_string("RF Channel: ");
 	lcd_print_hex(getRFRegValue(RF_CH));
 	
-	lcd_print_string("RF Set up Value: ");
+	set_cursor(2,0);
+	lcd_print_string("Set up Value: ");
 	lcd_print_hex(getRFRegValue(RF_SETUP));
 	
 }
@@ -320,40 +324,38 @@ void print_power_IC_settings(void){
 }
 
 void lcd_print_power_IC_settings(void){
-	lcd_print_string("Power IC Settings:");
-	lcd_print_string("\r\n");
+	clear_lcd();
+	//lcd_print_string("pIC Settings:");
+	//lcd_print_string("\r\n");
 	
-	lcd_print_string("System Status: ");
-	lcd_print_hex(get_pIC_RegValue(SysStatus));
-	lcd_print_string("\r\n");
+	lcd_print_string("SS: ");
+	lcd_printHexWord(get_pIC_RegValue(SysStatus));
 	
-	lcd_print_string("Metering Status: ");
-	lcd_print_hex(get_pIC_RegValue(EnStatus));
-	lcd_print_string("\r\n");
+	set_cursor(1,0);
+	lcd_print_string("MS: ");
+	lcd_printHexWord(get_pIC_RegValue(EnStatus));
 	
-	lcd_print_string("Metering Mode: ");
-	lcd_print_hex(get_pIC_RegValue(MMode));
-	lcd_print_string("\r\n");
+	set_cursor(2,0);
+	lcd_print_string("MM: ");
+	lcd_printHexWord(get_pIC_RegValue(MMode));
 	
-	lcd_print_string("Checksum 1: ");
-	lcd_print_hex(get_pIC_RegValue(CS1));
-	lcd_print_string("\r\n");
+	//set_cursor(1,0);
+	//lcd_print_string("CS 1: ");
+	//lcd_printHexWord(get_pIC_RegValue(CS1));
 	
-	lcd_print_string("Checksum 2: ");
-	lcd_print_hex((get_pIC_RegValue(CS2)));
-	lcd_print_string("\r\n");
+	//lcd_print_string("CS 2: ");
+	//lcd_printHexWord((get_pIC_RegValue(CS2)));
 	
-	lcd_print_string("Measurement Calibration Start Command: ");
-	lcd_print_hex((get_pIC_RegValue(AdjStart)));
-	lcd_print_string("\r\n");
+	//set_cursor(2,0);
+	//lcd_print_string("M Cal Start: ");
+	//lcd_printHexWord((get_pIC_RegValue(AdjStart)));
 	
-	lcd_print_string("Voltage RMS Gain: ");
-	lcd_print_hex((get_pIC_RegValue(Ugain)));
-	lcd_print_string("\r\n");
+	//set_cursor(3,0);
+	//lcd_print_string("VRMS Gain: ");
+	//lcd_printHexWord((get_pIC_RegValue(Ugain)));
 	
-	lcd_print_string("L Line Current RMS Gain: ");
-	lcd_print_hex((get_pIC_RegValue(IgainL)));
-	lcd_print_string("\r\n");
+	//lcd_print_string("Lc RMS Gain: ");
+	//lcd_printHexWord((get_pIC_RegValue(IgainL)));
 	
 }
 
@@ -399,35 +401,49 @@ void print_power_data(){
 }
 
 void lcd_print_power_data(){
+	clear_lcd();
 	char data[10];
 	clear_lcd();
 	set_cursor(0,0);
-	lcd_print_string("V: ");
+	lcd_print_string("V:    ");
 	formatVoltage(get_pIC_RegValue(Urms), data);
 	lcd_print_string(data);
 	
-	lcd_print_string(" I: ");
+	set_cursor(1,0);
+	lcd_print_string("I:    ");
 	formatCurrent(get_pIC_RegValue(Irms), data);
 	lcd_print_string(data);
 	
-	set_cursor(1,0);
+	set_cursor(2,0);
+	lcd_print_string("RP:  ");
+	formatPower(get_pIC_RegValue(Qmean), data);
+	lcd_print_string(data);
+	
+	set_cursor(3,0);
+	lcd_print_string("P Angle: ");
+	formatPhaseAngle(get_pIC_RegValue(Pangle), data);
+	lcd_print_string(data);
+	
+	/*set_cursor(4,0);
+	lcd_print_string("PF: ");
+	formatPowerFactor(get_pIC_RegValue(PowerF), data);
+	lcd_print_string(data);
+	
+	set_cursor(4,0);
 	lcd_print_string("FREQ: ");
 	formatFrequency(get_pIC_RegValue(Freq), data);
 	lcd_print_string(data);
 	
-	lcd_print_string(" PF: ");
-	formatPowerFactor(get_pIC_RegValue(PowerF), data);
-	lcd_print_string(data);
-	
+	set_cursor(2,0);
 	lcd_print_string(" P Angle: ");
 	formatPhaseAngle(get_pIC_RegValue(Pangle), data);
 	lcd_print_string(data);
 	
-	set_cursor(2,0);
 	lcd_print_string("AP: ");
 	formatPower(get_pIC_RegValue(Pmean), data);
 	lcd_print_string(data);
 	
+	set_cursor(3,0);
 	lcd_print_string(" RP: ");
 	formatPower(get_pIC_RegValue(Qmean), data);
 	lcd_print_string(data);
@@ -435,6 +451,10 @@ void lcd_print_power_data(){
 	lcd_print_string(" ABSP: ");
 	formatPower(get_pIC_RegValue(Smean), data);
 	lcd_print_string(data);
+	
+	lcd_print_string("FREQ: ");
+	formatFrequency(get_pIC_RegValue(Freq), data);
+	lcd_print_string(data);*/
 }
 
 // each one second interrupt

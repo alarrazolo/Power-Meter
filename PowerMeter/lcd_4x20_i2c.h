@@ -28,6 +28,7 @@ void set_cursor(int line, int place);
 void lcd_print_string(const char String[]);
 void lcd_print_number(int number);
 void lcd_print_hex(uint8_t hex);
+void lcd_printHexWord(uint16_t word);
 
 
 #endif /* LCD_4X20_I2C_H_ */

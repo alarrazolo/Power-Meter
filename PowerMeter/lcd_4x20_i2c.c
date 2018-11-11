@@ -8,10 +8,10 @@
 #include "lcd_4x20_i2c.h"
 
 
-//#define i2c_address_W 0x7E  // Define I2C Address where the PCF8574A is
-//#define i2c_address_R 0x7F
-#define i2c_address_W 0x4E  // Define I2C Address where the PCF8574A is
-#define i2c_address_R 0x4F
+#define i2c_address_W 0x7E  // Define I2C Address where the PCF8574A is
+#define i2c_address_R 0x7F
+//#define i2c_address_W 0x4E  // Define I2C Address where the PCF8574A is
+//#define i2c_address_R 0x4F
 #define RS				0
 #define RW				1
 #define E				2
@@ -166,4 +166,24 @@ void lcd_print_hex(uint8_t hex){
 	write(nibbleToHex(highNibble));
 	write(nibbleToHex(lowNibble));
 	write('H');
+}
+
+void lcd_printHexWord(uint16_t word){
+	//printHexByte(word>>8);
+	//printHexByte(word & ~(0xff<<8));
+	//printString("H");
+	
+	write('0');
+	write('x');
+	uint8_t nibble;
+	nibble = (word & 0xF000) >> 12;
+	write(nibbleToHex(nibble));
+	nibble = (word & 0x0F00) >> 8;
+	write(nibbleToHex(nibble));
+	nibble = (word & 0xF0) >> 4;
+	write(nibbleToHex(nibble));
+	nibble = word & 0x0F;
+	write(nibbleToHex(nibble));
+	write('H');
+	
 }

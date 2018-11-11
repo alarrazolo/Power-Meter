@@ -100,9 +100,22 @@ void printWord(uint16_t word) {
 }
 
 void printHexWord(uint16_t word){
-	printHexByte(word>>8);
-	printHexByte(word & ~(0xff<<8));
-	printString("H");
+	//printHexByte(word>>8);
+	//printHexByte(word & ~(0xff<<8));
+	//printString("H");
+	
+	transmitByte('0');
+	transmitByte('x');
+	uint8_t nibble;
+	nibble = (word & 0xF000) >> 12;
+	transmitByte(nibbleToHexCharacter(nibble));
+	nibble = (word & 0x0F00) >> 8;
+	transmitByte(nibbleToHexCharacter(nibble));
+	nibble = (word & 0xF0) >> 4;
+	transmitByte(nibbleToHexCharacter(nibble));
+	nibble = word & 0x0F;
+	transmitByte(nibbleToHexCharacter(nibble));
+	transmitByte('H');
 	
 }
 
