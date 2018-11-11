@@ -108,9 +108,8 @@ void printHexWord(uint16_t word){
 
 void printSignedWord(int16_t word){
 	if(word>>15){
-		word &= ~(1UL<<16);
 		printString("-");
-		word ^= (0xffff & ~(1UL<<16));
+		word ^= 0xffff;
 		word++;
 		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
 		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
@@ -152,12 +151,15 @@ char nibbleToHexCharacter(uint8_t nibble) {
 }
 
 void printHexByte(uint8_t byte) {
-                        /* Prints a byte as its hexadecimal equivalent */
-  uint8_t nibble;
-  nibble = (byte & 0b11110000) >> 4;
-  transmitByte(nibbleToHexCharacter(nibble));
-  nibble = byte & 0b00001111;
-  transmitByte(nibbleToHexCharacter(nibble));
+	/* Prints a byte as its hexadecimal equivalent */
+	transmitByte('0');
+	transmitByte('x');
+	uint8_t nibble;
+	nibble = (byte & 0xF0) >> 4;
+	transmitByte(nibbleToHexCharacter(nibble));
+	nibble = byte & 0x0F;
+	transmitByte(nibbleToHexCharacter(nibble));
+	transmitByte('H');
 }
 
 uint8_t getNumber(void) {

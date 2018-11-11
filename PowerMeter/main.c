@@ -35,11 +35,19 @@ m90E26 *setup_powerIC(void);
 
 void print_time(void);
 
+void lcd_print_Time(void);
+
 void print_RF_settings(void);
+
+void lcd_print_RF_settings(void);
 
 void print_power_IC_settings(void);
 
-void print_power_data(void);
+void lcd_print_power_IC_settings(void);
+
+void print_power_data();
+
+void lcd_print_power_data();
 
 volatile bool rf_interrupt = false;
 volatile bool send_message = false;
@@ -69,11 +77,13 @@ int main(void)
 	//printString("Starting Program!\r\n");
 	
 	
+	
+	
 	//print_RF_settings();
 	
 	print_power_IC_settings();
 	//set_pIC_RegValue(SmallPMod, 0xA987);
-	int counter=0;
+	int counter = 0;
 	
 	//print_power_data();
 	int kWh = 0;
@@ -84,8 +94,8 @@ int main(void)
 		if (send_message){
 			print_power_data();
 			kWh += get_pIC_RegValue(ATenergy);
-			printEnergy(kWh);
-			printString("\r\n");
+			//printEnergy(kWh);
+			//printString("\r\n");
 			send_message = false;
 			if (counter < 5){
 				//printHexWord(get_pIC_RegValue(Pmean));
@@ -182,13 +192,23 @@ void setup_timer(void) {
 
 void print_RF_settings(void){
 	
-	printString("Transmitting on Channel: 0x");
+	printString("Transmitting on Channel: ");
 	printHexByte(getRFRegValue(RF_CH));
-	printString("H\r\n");
+	printString("\r\n");
 	
 	printString("RF Set up Value: ");
 	printHexByte(getRFRegValue(RF_SETUP));
-	printString("H\r\n");
+	printString("\r\n");
+	
+}
+
+void lcd_print_RF_settings(void){
+	
+	lcd_print_string("Transmitting on Channel: ");
+	lcd_print_hex(getRFRegValue(RF_CH));
+	
+	lcd_print_string("RF Set up Value: ");
+	lcd_print_hex(getRFRegValue(RF_SETUP));
 	
 }
 
@@ -229,6 +249,38 @@ void print_time(void){
 	printString("\r\n");
 }
 
+void lcd_print_Time(void){
+	i2cStart();
+	i2cSend(clockAddressW);
+	i2cSend(0x00);
+	i2cStart();
+	i2cSend(clockAddressR);
+	uint8_t ss = bcd2bin(i2cReadAck() & 0x7F);		//seconds
+	uint8_t mm = bcd2bin(i2cReadAck());		//minutes
+	uint8_t hh = bcd2bin(i2cReadAck());		//hours
+	bcd2bin(i2cReadAck());		//day of the week
+	uint8_t date = bcd2bin(i2cReadAck());		//day of the month
+	uint8_t month = bcd2bin(i2cReadAck());		//month
+	uint16_t year = bcd2bin(i2cReadNoAck()) + 2000;		//year
+	i2cStop();
+	
+	clear_lcd();
+	set_cursor(0,0);
+	lcd_print_number(hh);
+	lcd_print_string(":");
+	lcd_print_number(mm);
+	lcd_print_string(":");
+	lcd_print_number(ss);
+	//printString(timeflag);
+	set_cursor(1,0);
+	lcd_print_number(month);
+	lcd_print_string("/");
+	lcd_print_number(date);
+	lcd_print_string("/");
+	lcd_print_number(year);
+	//printString("\r\n");
+}
+
 void print_power_IC_settings(void){
 	printString("Power IC Settings:");
 	printString("\r\n");
@@ -267,29 +319,122 @@ void print_power_IC_settings(void){
 	
 }
 
-void print_power_data(void){
+void lcd_print_power_IC_settings(void){
+	lcd_print_string("Power IC Settings:");
+	lcd_print_string("\r\n");
 	
+	lcd_print_string("System Status: ");
+	lcd_print_hex(get_pIC_RegValue(SysStatus));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("Metering Status: ");
+	lcd_print_hex(get_pIC_RegValue(EnStatus));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("Metering Mode: ");
+	lcd_print_hex(get_pIC_RegValue(MMode));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("Checksum 1: ");
+	lcd_print_hex(get_pIC_RegValue(CS1));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("Checksum 2: ");
+	lcd_print_hex((get_pIC_RegValue(CS2)));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("Measurement Calibration Start Command: ");
+	lcd_print_hex((get_pIC_RegValue(AdjStart)));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("Voltage RMS Gain: ");
+	lcd_print_hex((get_pIC_RegValue(Ugain)));
+	lcd_print_string("\r\n");
+	
+	lcd_print_string("L Line Current RMS Gain: ");
+	lcd_print_hex((get_pIC_RegValue(IgainL)));
+	lcd_print_string("\r\n");
+	
+}
+
+void print_power_data(){
+	char data[10];
 	//printString("Measurement Calibration start: \r\n");
 	//printWord(get_pIC_RegValue(AdjStart));
 	printString("Voltage: ");
-	printVoltage(get_pIC_RegValue(Urms));
+	formatVoltage(get_pIC_RegValue(Urms), data);
+	printString(data);
+	
 	printString("\t\tCurrent: ");
-	printCurrent(get_pIC_RegValue(Irms));
+	formatCurrent(get_pIC_RegValue(Irms), data);
+	printString(data);
+	
 	printString("\r\n");
 	printString("Frequency: ");
-	printFrequency(get_pIC_RegValue(Freq));
+	formatFrequency(get_pIC_RegValue(Freq), data);
+	printString(data);
+	
 	printString("\tPower Factor: ");
-	printPowerFactor(get_pIC_RegValue(PowerF));
+	formatPowerFactor(get_pIC_RegValue(PowerF), data);
+	printString(data);
+	
 	printString("\tPhase Angle: ");
-	printPhaseAngle(get_pIC_RegValue(Pangle));
+	formatPhaseAngle(get_pIC_RegValue(Pangle), data);
+	printString(data);
+	
 	printString("\n\rActive Power: ");
-	printPower(get_pIC_RegValue(Pmean));
+	formatPower(get_pIC_RegValue(Pmean), data);
+	printString(data);
+	
 	printString("\tReactive Power: ");
-	printPower(get_pIC_RegValue(Qmean));
+	formatPower(get_pIC_RegValue(Qmean), data);
+	printString(data);
+	
 	printString("\tAbsolute Power: ");
-	printPower(get_pIC_RegValue(Smean));
+	formatPower(get_pIC_RegValue(Smean), data);
+	printString(data);
+	
 	printString("\r\n\n");
 	
+}
+
+void lcd_print_power_data(){
+	char data[10];
+	clear_lcd();
+	set_cursor(0,0);
+	lcd_print_string("V: ");
+	formatVoltage(get_pIC_RegValue(Urms), data);
+	lcd_print_string(data);
+	
+	lcd_print_string(" I: ");
+	formatCurrent(get_pIC_RegValue(Irms), data);
+	lcd_print_string(data);
+	
+	set_cursor(1,0);
+	lcd_print_string("FREQ: ");
+	formatFrequency(get_pIC_RegValue(Freq), data);
+	lcd_print_string(data);
+	
+	lcd_print_string(" PF: ");
+	formatPowerFactor(get_pIC_RegValue(PowerF), data);
+	lcd_print_string(data);
+	
+	lcd_print_string(" P Angle: ");
+	formatPhaseAngle(get_pIC_RegValue(Pangle), data);
+	lcd_print_string(data);
+	
+	set_cursor(2,0);
+	lcd_print_string("AP: ");
+	formatPower(get_pIC_RegValue(Pmean), data);
+	lcd_print_string(data);
+	
+	lcd_print_string(" RP: ");
+	formatPower(get_pIC_RegValue(Qmean), data);
+	lcd_print_string(data);
+	
+	lcd_print_string(" ABSP: ");
+	formatPower(get_pIC_RegValue(Smean), data);
+	lcd_print_string(data);
 }
 
 // each one second interrupt

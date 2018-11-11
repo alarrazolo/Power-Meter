@@ -45,18 +45,20 @@ uint16_t get_pIC_RegValue(uint8_t pICRegister);
 
 void set_pIC_RegValue(uint8_t pICRegister, uint16_t byte);
 
-void printVoltage(uint16_t word);
+void clearBuff(char *buf);
 
-void printCurrent(uint16_t word);
+void formatVoltage(uint16_t word, char *buf);
 
-void printPower(int16_t word);
+void formatCurrent(uint16_t word, char *buf);
 
-void printFrequency(uint16_t word);
+void formatPower(int16_t word, char *buf);
 
-void printPowerFactor(int16_t word);
+void formatFrequency(uint16_t word, char *buf);
 
-void printPhaseAngle(int16_t word);
+void formatPowerFactor(int16_t word, char *buf);
 
-void printEnergy(uint16_t word);
+void formatPhaseAngle(int16_t word, char *buf);
+
+void formatEnergy(uint16_t word, char *buf);
 
 #endif /* M90E26_H_ */

@@ -5,12 +5,9 @@
  *  Author: alarr
  */ 
 
-//#include <string.h>
 #include "M90E26.h"
-//#include "M90E26_Pins.h"
-//#include "SPI.h"
 
-m90E26 *powerIC_init(void) {
+m90E26 *powerIC_init(void){
 	m90E26 *pIC = malloc(sizeof(m90E26));
 	memset(pIC, 0, sizeof(m90E26));
 	return pIC;
@@ -77,10 +74,6 @@ uint16_t get_pIC_RegValue(uint8_t pICRegister){
 	uint16_t full16Byte = (highByte << 8) | lowByte; // Combine MSB and LSB together into 16 bit Byte.
 	return full16Byte; // return Byte to function call. 
 	
-	//printHexByte(pIC_d1bitHigh);
-	//printHexByte(pIC_d1bitLow);
-	//printString("H\r\n");
-	
 }
 
 void set_pIC_RegValue(uint8_t pICRegister, uint16_t byte){
@@ -95,31 +88,145 @@ void set_pIC_RegValue(uint8_t pICRegister, uint16_t byte){
 	SPI_tradeByte(lowByte); // Write LSD Byte second.
 	PORTB |= (1<<0); // set chip select bit high to terminate SPI communication.
 	
-	//printString("Set Reg: ");
-	//printHexByte(pICRegister);
-	//printString(" to value: ");
-	//printHexByte(highBit);
-	//printHexByte(lowBit);
-	//printString("H\r\n");
-	
 }
 
+void clearBuff(char *buf){
+	uint8_t i = 0;
+	while (buf[i]) {
+		buf[i] = NULL;
+		i++;
+	}
+}
+
+void formatVoltage(uint16_t word, char *buf){
+	clearBuff(buf);
+	buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+	buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+	buf[2] = ('0' + ((word / 100) % 10));                 // Hundreds
+	buf[3] = ('.'); //
+	buf[4] = ('0' + ((word / 10) % 10));                      // Tens
+	buf[5] = ('0' + (word % 10));                             // Ones
+}
+
+void formatCurrent(uint16_t word, char *buf){
+	clearBuff(buf);
+	buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+	buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+	buf[2] = ('.'); //
+	buf[3] = ('0' + ((word / 100) % 10));                 // Hundreds
+	buf[4] = ('0' + ((word / 10) % 10));                      // Tens
+	buf[5] = ('0' + (word % 10));                             // Ones
+}
+
+void formatPower(int16_t word, char *buf){
+	clearBuff(buf);
+	if(word>>15){
+		buf[0] = ('-');
+		word ^= 0xffff;
+		word++;
+		buf[1] = ('0' + (word / 10000));                 // Ten-thousands
+		buf[2] = ('0' + ((word / 1000) % 10));               // Thousands
+		buf[3] = ('.'); //
+		buf[4] = ('0' + ((word / 100) % 10));                 // Hundreds
+		buf[5] = ('0' + ((word / 10) % 10));                      // Tens
+		buf[6] = ('0' + (word % 10));                             // Ones
+	}
+	else{
+		buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+		buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+		buf[2] = ('.'); //
+		buf[3] = ('0' + ((word / 100) % 10));                 // Hundreds
+		buf[4] = ('0' + ((word / 10) % 10));                      // Tens
+		buf[5] = ('0' + (word % 10));                             // Ones
+	}
+}
+
+void formatFrequency(uint16_t word, char *buf){
+	clearBuff(buf);
+	buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+	buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+	buf[2] = ('0' + ((word / 100) % 10));                 // Hundreds
+	buf[3] = ('.'); //
+	buf[4] = ('0' + ((word / 10) % 10));                      // Tens
+	buf[5] = ('0' + (word % 10));                             // Ones
+}
+
+void formatPowerFactor(int16_t word, char *buf){
+	clearBuff(buf);
+	if(word>>15){
+		word &= ~(1UL<<15);
+		buf[0] = ('-');
+		//word ^= (0xffff & ~(1UL<<16));
+		//word++;
+		buf[1] = ('0' + (word / 10000));                 // Ten-thousands
+		buf[2] = ('0' + ((word / 1000) % 10));               // Thousands
+		buf[3] = ('.'); //
+		buf[4] = ('0' + ((word / 100) % 10));                 // Hundreds
+		buf[5] = ('0' + ((word / 10) % 10));                      // Tens
+		buf[6] = ('0' + (word % 10));                             // Ones
+	}
+	else{
+		buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+		buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+		buf[2] = ('.');
+		buf[3] = ('0' + ((word / 100) % 10));                 // Hundreds
+		buf[4] = ('0' + ((word / 10) % 10));                      // Tens
+		buf[5] = ('0' + (word % 10));                             // Ones
+	}
+}
+
+void formatPhaseAngle(int16_t word, char *buf){
+	clearBuff(buf);
+	if(word>>15){
+		buf[0] = ('-');
+		word ^= 0xffff;
+		word++;
+		buf[1] = ('0' + (word / 10000));                 // Ten-thousands
+		buf[2] = ('0' + ((word / 1000) % 10));               // Thousands
+		buf[3] = ('0' + ((word / 100) % 10));                 // Hundreds
+		buf[4] = ('0' + ((word / 10) % 10));                      // Tens
+		buf[5] = ('.'); //
+		buf[6] = ('0' + (word % 10));                             // Ones
+	}
+	else{
+		buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+		buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+		buf[2] = ('0' + ((word / 100) % 10));                 // Hundreds
+		buf[3] = ('0' + ((word / 10) % 10));                      // Tens
+		buf[4] = ('.'); //
+		buf[5] = ('0' + (word % 10));                             // Ones
+	}
+}
+
+void formatEnergy(uint16_t word, char *buf){
+	clearBuff(buf);
+	buf[0] = ('0' + (word / 10000));                 // Ten-thousands
+	buf[1] = ('0' + ((word / 1000) % 10));               // Thousands
+	buf[2] = ('0' + ((word / 100) % 10));                 // Hundreds
+	buf[3] = ('0' + ((word / 10) % 10));                      // Tens
+	buf[4] = ('.'); //
+	buf[5] = ('0' + (word % 10));                             // One
+	//float data = atof(str);
+}
+
+/*
+
 void printVoltage(uint16_t word){
-	transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	transmitByte('0' + (word / 10000));                 // Ten-thousands 
+	transmitByte('0' + ((word / 1000) % 10));               // Thousands 
+	transmitByte('0' + ((word / 100) % 10));                 // Hundreds 
 	printString("."); //
-	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-	transmitByte('0' + (word % 10));                             /* Ones */
+	transmitByte('0' + ((word / 10) % 10));                      // Tens
+	transmitByte('0' + (word % 10));                             // Ones
 }
 
 void printCurrent(uint16_t word){
-	transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+	transmitByte('0' + (word / 10000));                 // Ten-thousands
+	transmitByte('0' + ((word / 1000) % 10));               // Thousands
 	printString("."); //
-	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-	transmitByte('0' + (word % 10));                             /* Ones */
+	transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+	transmitByte('0' + ((word / 10) % 10));                      // Tens
+	transmitByte('0' + (word % 10));                             // Ones
 }
 
 void printPower(int16_t word){
@@ -129,31 +236,31 @@ void printPower(int16_t word){
 		//word ^= (0xffff & ~(1UL<<15));
 		word ^= 0xffff;
 		word++;
-		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		transmitByte('0' + (word / 10000));                 // Ten-thousands
+		transmitByte('0' + ((word / 1000) % 10));               // Thousands
 		printString("."); //
-		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-		transmitByte('0' + (word % 10));                             /* Ones */
+		transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+		transmitByte('0' + ((word / 10) % 10));                      // Tens
+		transmitByte('0' + (word % 10));                             // Ones
 	}
 	else{
-		transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		transmitByte('0' + (word / 10000));                 // Ten-thousands
+		transmitByte('0' + ((word / 1000) % 10));               // Thousands
 		printString("."); //
-		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-		transmitByte('0' + (word % 10));                             /* Ones */
+		transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+		transmitByte('0' + ((word / 10) % 10));                      // Tens
+		transmitByte('0' + (word % 10));                             // Ones
 	}
 	
 }
 
 void printFrequency(uint16_t word){
-	//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
+	//transmitByte('0' + (word / 10000));                 // Ten-thousands
+	transmitByte('0' + ((word / 1000) % 10));               // Thousands
+	transmitByte('0' + ((word / 100) % 10));                 // Hundreds
 	printString("."); //
-	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-	transmitByte('0' + (word % 10));                             /* Ones */
+	transmitByte('0' + ((word / 10) % 10));                      // Tens
+	transmitByte('0' + (word % 10));                             // Ones
 }
 
 void printPowerFactor(int16_t word){
@@ -162,20 +269,20 @@ void printPowerFactor(int16_t word){
 		printString("-");
 		//word ^= (0xffff & ~(1UL<<16));
 		//word++;
-		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
+		//transmitByte('0' + (word / 10000));                 // Ten-thousands
+		transmitByte('0' + ((word / 1000) % 10));               // Thousands
 		printString("."); //
-		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-		transmitByte('0' + (word % 10));                             /* Ones */
+		transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+		transmitByte('0' + ((word / 10) % 10));                      // Tens
+		transmitByte('0' + (word % 10));                             // Ones
 	}
 	else{
-		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-		printString("."); //
-		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
-		transmitByte('0' + (word % 10));                             /* Ones */
+		//transmitByte('0' + (word / 10000));                 // Ten-thousands
+		transmitByte('0' + ((word / 1000) % 10));               // Thousands
+		printString("."); 
+		transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+		transmitByte('0' + ((word / 10) % 10));                      // Tens
+		transmitByte('0' + (word % 10));                             // Ones
 	}
 	
 }
@@ -187,29 +294,30 @@ void printPhaseAngle(int16_t word){
 		//word ^= (0xffff & ~(1UL<<15));
 		word ^= 0xffff;
 		word++;
-		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		//transmitByte('0' + (word / 10000));                 // Ten-thousands
+		transmitByte('0' + ((word / 1000) % 10));               // Thousands
+		transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+		transmitByte('0' + ((word / 10) % 10));                      // Tens
 		printString("."); //
-		transmitByte('0' + (word % 10));                             /* Ones */
+		transmitByte('0' + (word % 10));                             // Ones
 	}
 	else{
-		//transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-		transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-		transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-		transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+		//transmitByte('0' + (word / 10000));                 // Ten-thousands
+		transmitByte('0' + ((word / 1000) % 10));               // Thousands
+		transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+		transmitByte('0' + ((word / 10) % 10));                      // Tens
 		printString("."); //
-		transmitByte('0' + (word % 10));                             /* Ones */
+		transmitByte('0' + (word % 10));                             // Ones
 	}
 	
 }
 
 void printEnergy(uint16_t word){
-	transmitByte('0' + (word / 10000));                 /* Ten-thousands */
-	transmitByte('0' + ((word / 1000) % 10));               /* Thousands */
-	transmitByte('0' + ((word / 100) % 10));                 /* Hundreds */
-	transmitByte('0' + ((word / 10) % 10));                      /* Tens */
+	transmitByte('0' + (word / 10000));                 // Ten-thousands
+	transmitByte('0' + ((word / 1000) % 10));               // Thousands
+	transmitByte('0' + ((word / 100) % 10));                 // Hundreds
+	transmitByte('0' + ((word / 10) % 10));                      // Tens
 	printString("."); //
-	transmitByte('0' + (word % 10));                             /* Ones */
+	transmitByte('0' + (word % 10));                             // One
 }
+*/

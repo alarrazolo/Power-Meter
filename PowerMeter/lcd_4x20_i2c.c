@@ -93,6 +93,16 @@ void move_Cursor_Home(void){
 	send_Command((1 << BACKLIGHT) | (1 << D5));
 }
 
+char nibbleToHex(uint8_t nibble) {
+	/* Converts 4 bits into hexadecimal */
+	if (nibble < 10) {
+		return ('0' + nibble);
+	}
+	else {
+		return ('A' + nibble - 10);
+	}
+}
+
 void write(char character){
 	//uint8_t highNibble = ((uint8_t)character & 0xF0);
 	//uint8_t lowNibble = (((uint8_t)character & 0x0F) << 4);
@@ -146,4 +156,14 @@ void lcd_print_number(int number){
 	uint8_t lowNibble = ((number & 0x0F) << 4);
 	send_Command((1 << BACKLIGHT) | (1 << RS) | highNibble);
 	send_Command((1 << BACKLIGHT) | (1 << RS) | lowNibble);
+}
+
+void lcd_print_hex(uint8_t hex){
+	uint8_t highNibble = ((hex & 0xF0) >> 4);
+	uint8_t lowNibble = (hex & 0x0F);
+	write('0');
+	write('x');
+	write(nibbleToHex(highNibble));
+	write(nibbleToHex(lowNibble));
+	write('H');
 }
