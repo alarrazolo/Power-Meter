@@ -7,15 +7,14 @@
 
 #include "defines.h" // defined F_CPU in this file.
 
-#ifndef F_CPU                          /* if not defined in Makefile... */
-#define F_CPU  1000000UL                     /* set a safe default baud rate */
+#ifndef F_CPU
+#define F_CPU  1000000UL
 #endif
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdbool.h>
 #include <string.h>
-//#include <util/delay.h>
 #include "SPI.h"
 #include "USART.h"
 #include "nrf24l01.h"
@@ -24,8 +23,7 @@
 #include "lcd_4x20_i2c.h"
 #include "M90E26.h"
 #include "M90E26_Pins.h"
-
-static uint8_t bcd2bin (uint8_t val) { return val - 6 * (val >> 4);}
+#include "i2c_RTC_DS1307.h"
 
 void setup_timer(void);
 
@@ -51,8 +49,6 @@ void lcd_print_power_data();
 
 volatile bool rf_interrupt = false;
 volatile bool send_message = false;
-uint8_t clockAddressR = 0b11010001; // write bit for DS1307
-uint8_t clockAddressW = 0b11010000; // read bit for DS1307
 uint8_t to_address[5] = {0xC2, 0xC2, 0xC2, 0xC2, 0xC2}; // RF channel address.
 
 int main(void)
@@ -60,15 +56,17 @@ int main(void)
 	initUSART();
 	initI2C();
 	initLCD();
-	SPI_init();
+	//SPI_init();
 	
 	//bool on = false;
 	sei();
 	//nRF24L01 *rf = setup_rf();
-	setup_rf();
+	
+	//setup_rf();
+	
 	//m90E26 *pIC = setup_powerIC();
 	
-	pIC_Start();
+	//pIC_Start();
 	setup_timer();
 	
 	clear_lcd();
@@ -85,19 +83,20 @@ int main(void)
 	int counter = 0;
 	
 	//print_power_data();
-	int kWh = 0;
+	//int kWh = 0;
 	
     while (1) 
     {
 		
 		if (send_message){
-			lcd_print_power_data();
-			print_power_data();
-			//print_time();
+			//lcd_print_power_data();
+			//print_power_data();
+			print_time();
+			lcd_print_Time();
 			//printString("Hello");
-			kWh += get_pIC_RegValue(ATenergy);
+			//kWh += get_pIC_RegValue(ATenergy);
 			//printEnergy(kWh);
-			//printString("\r\n");
+			printString("\r\n");
 			send_message = false;
 			if (counter < 5){
 				//printHexWord(get_pIC_RegValue(Pmean));
@@ -182,11 +181,11 @@ m90E26 *setup_powerIC(void) {
 void setup_timer(void) {
 	TCCR1B |= (1 << WGM12);
 	TIMSK1 |= (1 << OCIE1A);
-	OCR1A = 15624; // for 1MHz Clock
-	//OCR1A = 31250;  // for 8MHz Clock
+	//OCR1A = 15624; // for 1MHz Clock
+	OCR1A = 31250;  // for 8MHz Clock
 	//OCR1A = 250000;  // for 16 MHz Clock
-	TCCR1B |= _BV(CS10) | _BV(CS11);
-	//TCCR1B |= (1 << CS12);
+	//TCCR1B |= (1 << CS10) | (1 << CS11); // 1MHz
+	TCCR1B |= (1 << CS12); // 8MHz
 	//changed timer to every 4 seconds
 	//TCCR1B |= _BV(CS12);
 	
@@ -217,72 +216,16 @@ void lcd_print_RF_settings(void){
 }
 
 void print_time(void){
-	i2cStart();
-	i2cSend(clockAddressW);
-	i2cSend(0x00);
-	i2cStart();
-	i2cSend(clockAddressR);
-	uint8_t ss = bcd2bin(i2cReadAck() & 0x7F);		//seconds
-	uint8_t mm = bcd2bin(i2cReadAck());		//minutes
-	uint8_t hh = bcd2bin(i2cReadAck());		//hours
-	bcd2bin(i2cReadAck());		//day of the week
-	uint8_t date = bcd2bin(i2cReadAck());		//day of the month
-	uint8_t month = bcd2bin(i2cReadAck());		//month
-	uint16_t year = bcd2bin(i2cReadNoAck()) + 2000;		//year
-	i2cStop();
-	
-	if (hh > 12){
-		hh = hh - 12;
-		//char* timeflag = "PM";
-	}
-	else {
-		//char* timeflag = "AM";
-	}
-	printByte(hh);
-	printString(":");
-	printByte(mm);
-	printString(":");
-	printByte(ss);
-	//printString(timeflag);
-	printString("   ");
-	printByte(month);
-	printString("/");
-	printByte(date);
-	printString("/");
-	printWord(year);
-	printString("\r\n");
+	char time[30];
+	get_time(time);
+	printString(time);
 }
 
 void lcd_print_Time(void){
-	i2cStart();
-	i2cSend(clockAddressW);
-	i2cSend(0x00);
-	i2cStart();
-	i2cSend(clockAddressR);
-	uint8_t ss = bcd2bin(i2cReadAck() & 0x7F);		//seconds
-	uint8_t mm = bcd2bin(i2cReadAck());		//minutes
-	uint8_t hh = bcd2bin(i2cReadAck());		//hours
-	bcd2bin(i2cReadAck());		//day of the week
-	uint8_t date = bcd2bin(i2cReadAck());		//day of the month
-	uint8_t month = bcd2bin(i2cReadAck());		//month
-	uint16_t year = bcd2bin(i2cReadNoAck()) + 2000;		//year
-	i2cStop();
-	
+	char time[30];
+	get_time(time);
 	clear_lcd();
-	set_cursor(0,0);
-	lcd_print_number(hh);
-	lcd_print_string(":");
-	lcd_print_number(mm);
-	lcd_print_string(":");
-	lcd_print_number(ss);
-	//printString(timeflag);
-	set_cursor(1,0);
-	lcd_print_number(month);
-	lcd_print_string("/");
-	lcd_print_number(date);
-	lcd_print_string("/");
-	lcd_print_number(year);
-	//printString("\r\n");
+	lcd_print_string(time);
 }
 
 void print_power_IC_settings(void){

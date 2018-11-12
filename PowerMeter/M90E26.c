@@ -90,13 +90,14 @@ void set_pIC_RegValue(uint8_t pICRegister, uint16_t byte){
 	
 }
 
+/*
 void clearBuff(char *buf){
 	uint8_t i = 0;
 	while (buf[i]) {
-		buf[i] = NULL;
+		buf[i] = 0;
 		i++;
 	}
-}
+}*/
 
 void formatVoltage(uint16_t word, char *buf){
 	clearBuff(buf);

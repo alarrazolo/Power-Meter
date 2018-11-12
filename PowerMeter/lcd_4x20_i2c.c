@@ -5,8 +5,9 @@
  *  Author: alarr
  */ 
 
+#include "defines.h"
 #include "lcd_4x20_i2c.h"
-
+#include <util/delay.h>
 
 #define i2c_address_W 0x7E  // Define I2C Address where the PCF8574A is
 #define i2c_address_R 0x7F
@@ -21,7 +22,9 @@
 #define D6				6
 #define D7				7
 
-void initLCD(){
+#define delay_time 1
+
+void initLCD(void){
 	set_Up_4bit_Mode();
 	configure_Control_Bytes();
 	enable_lcd();
@@ -36,59 +39,83 @@ void send_Command(uint8_t data){
 	i2cStop();
 }
 
+void checkBF(void){
+	uint8_t flag;
+	do{
+		send_Command((1 << RW) | (1 << BACKLIGHT));
+		send_Command((1 << RW) | (1 << BACKLIGHT));
+		i2cStart();
+		i2cSend(i2c_address_W);
+		i2cSend((1 << BACKLIGHT));
+		i2cStart();
+		i2cSend(i2c_address_R);
+		flag = i2cReadNoAck();
+		i2cStop();
+	}
+	while((flag>>7));
+}
+
 void set_Up_4bit_Mode(void){
 	//set up LCD in 4bit Mode
+	_delay_ms(15);
 	send_Command((1 << D4) | (1 << D5));
-	
+	_delay_ms(4.1);
 	send_Command((1 << D4) | (1 << D5));
-	
+	_delay_us(100);
 	send_Command((1 << D4) | (1 << D5));
-	
+	_delay_ms(4.1);
 	send_Command((1 << D5));
 }
 
 void configure_Control_Bytes(void){
 	//Configure control Bytes
-	
+	_delay_us(40);
 	send_Command((1 << D5));
 	send_Command((1 << D7));
-	
+	_delay_us(40);
 	send_Command(0x00);
 	send_Command((1 << D7));
-	
+	_delay_us(40);
 	send_Command(0x00);
 	send_Command((1 << D4));
-	
+	_delay_ms(1.64);
 	send_Command(0x00);
 	send_Command((1 << D5) | (1 << D6));
+	_delay_us(40);
 }
 
 void enable_lcd(void){
+	checkBF();
 	send_Command((1 << BACKLIGHT));
 	send_Command((1 << BACKLIGHT) | (1 << D4) | (1 << D5) | (1 << D6) | (1 << D7));
 }
 
 void disable_LCD(void){
+	checkBF();
 	send_Command(0x00);
 	send_Command((1 << D7));
 }
 
 void clear_lcd(void){
+	checkBF();
 	send_Command((1 << BACKLIGHT));
 	send_Command((1 << BACKLIGHT) | (1 << D4));
 }
 
 void move_Cursor_Right(void){
+	checkBF();
 	send_Command((1 << BACKLIGHT) | (1 << D4));
 	send_Command((1 << BACKLIGHT) | (1 << D6));
 }
 
 void move_Cursor_Left(void){
+	checkBF();
 	send_Command((1 << BACKLIGHT) | (1 << D4));
 	send_Command((1 << BACKLIGHT));
 }
 
 void move_Cursor_Home(void){
+	checkBF();
 	send_Command((1 << BACKLIGHT));
 	send_Command((1 << BACKLIGHT) | (1 << D5));
 }
@@ -104,6 +131,7 @@ char nibbleToHex(uint8_t nibble) {
 }
 
 void write(char character){
+	checkBF();
 	//uint8_t highNibble = ((uint8_t)character & 0xF0);
 	//uint8_t lowNibble = (((uint8_t)character & 0x0F) << 4);
 	uint8_t highNibble = (character & 0xF0);
@@ -113,6 +141,7 @@ void write(char character){
 }
 
 void set_cursor(int line, int place){
+	checkBF();
 	if(line > 3) line = 3;
 	if(place > 20) place = 20;
 	
@@ -152,6 +181,7 @@ void lcd_print_string(const char String[])
 }
 
 void lcd_print_number(int number){
+	checkBF();
 	uint8_t highNibble = (number & 0xF0);
 	uint8_t lowNibble = ((number & 0x0F) << 4);
 	send_Command((1 << BACKLIGHT) | (1 << RS) | highNibble);

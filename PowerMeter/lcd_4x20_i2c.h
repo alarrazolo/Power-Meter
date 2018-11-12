@@ -14,6 +14,7 @@
 
 void initLCD(void);
 void send_Command(uint8_t data);
+void checkBF();
 void set_Up_4bit_Mode(void);
 void configure_Control_Bytes(void);
 void enable_lcd(void);

@@ -3,13 +3,13 @@ Archive member included to satisfy reference by file (symbol)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
                               M90E26.o (__divmodhi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o (exit)
+                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o (exit)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_copy_data.o)
-                              main.o (__do_copy_data)
+                              i2c_RTC_DS1307.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_clear_bss.o)
                               main.o (__do_clear_bss)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
-                              M90E26.o (__umulhisi3)
+                              i2c_RTC_DS1307.o (__umulhisi3)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
                               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o) (__udivmodhi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
@@ -23,30 +23,29 @@ __flp               0x2               c:/program files (x86)/atmel/studio/7.0/to
 
 Discarded input sections
 
- .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .text          0x00000000        0x0 i2c.o
  .data          0x00000000        0x0 i2c.o
  .bss           0x00000000        0x0 i2c.o
- .text.i2cReadAck
-                0x00000000       0x10 i2c.o
- .text.i2cReadNoAck
-                0x00000000       0x10 i2c.o
+ .text          0x00000000        0x0 i2c_RTC_DS1307.o
+ .data          0x00000000        0x0 i2c_RTC_DS1307.o
+ .bss           0x00000000        0x0 i2c_RTC_DS1307.o
  .text          0x00000000        0x0 lcd_4x20_i2c.o
  .data          0x00000000        0x0 lcd_4x20_i2c.o
  .bss           0x00000000        0x0 lcd_4x20_i2c.o
  .text.disable_LCD
-                0x00000000        0xe lcd_4x20_i2c.o
+                0x00000000       0x12 lcd_4x20_i2c.o
  .text.move_Cursor_Right
-                0x00000000        0xe lcd_4x20_i2c.o
+                0x00000000       0x12 lcd_4x20_i2c.o
  .text.move_Cursor_Left
-                0x00000000        0xe lcd_4x20_i2c.o
+                0x00000000       0x12 lcd_4x20_i2c.o
  .text.move_Cursor_Home
-                0x00000000        0xe lcd_4x20_i2c.o
+                0x00000000       0x12 lcd_4x20_i2c.o
  .text.nibbleToHex
                 0x00000000        0xc lcd_4x20_i2c.o
  .text.lcd_print_number
-                0x00000000       0x28 lcd_4x20_i2c.o
+                0x00000000       0x2e lcd_4x20_i2c.o
  .text.lcd_print_hex
                 0x00000000       0x34 lcd_4x20_i2c.o
  .text.lcd_printHexWord
@@ -56,36 +55,68 @@ Discarded input sections
  .bss           0x00000000        0x0 M90E26.o
  .text.powerIC_init
                 0x00000000       0x14 M90E26.o
+ .text.get_pIC_RegValue
+                0x00000000       0x2c M90E26.o
+ .text.set_pIC_RegValue
+                0x00000000       0x22 M90E26.o
+ .text.pIC_Start
+                0x00000000      0x138 M90E26.o
+ .text.formatVoltage
+                0x00000000      0x152 M90E26.o
+ .text.formatCurrent
+                0x00000000      0x152 M90E26.o
+ .text.formatPower
+                0x00000000       0xe4 M90E26.o
+ .text.formatFrequency
+                0x00000000      0x152 M90E26.o
+ .text.formatPowerFactor
+                0x00000000       0xe0 M90E26.o
+ .text.formatPhaseAngle
+                0x00000000       0xe4 M90E26.o
  .text.formatEnergy
                 0x00000000      0x152 M90E26.o
+ .debug_info    0x00000000      0x8bb M90E26.o
+ .debug_abbrev  0x00000000      0x155 M90E26.o
+ .debug_loc     0x00000000      0x6bc M90E26.o
+ .debug_aranges
+                0x00000000       0x70 M90E26.o
+ .debug_ranges  0x00000000       0x60 M90E26.o
+ .debug_line    0x00000000      0x49f M90E26.o
+ .debug_str     0x00000000      0x2cc M90E26.o
+ .comment       0x00000000       0x31 M90E26.o
+ .debug_frame   0x00000000      0x170 M90E26.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .text.setup_rf
+                0x00000000       0x50 main.o
  .text.setup_powerIC
                 0x00000000       0x2c main.o
  .text.print_RF_settings
                 0x00000000       0x36 main.o
  .text.lcd_print_RF_settings
                 0x00000000       0x36 main.o
- .text.print_time
-                0x00000000      0x12a main.o
- .text.lcd_print_Time
-                0x00000000      0x136 main.o
  .text.print_power_IC_settings
                 0x00000000       0xe2 main.o
  .text.lcd_print_power_IC_settings
                 0x00000000       0x54 main.o
+ .text.print_power_data
+                0x00000000      0x136 main.o
+ .text.lcd_print_power_data
+                0x00000000       0xde main.o
  .data.to_address
                 0x00000000        0x5 main.o
- .data.clockAddressW
-                0x00000000        0x1 main.o
- .data.clockAddressR
-                0x00000000        0x1 main.o
  .text          0x00000000        0x0 nrf24l01.o
  .data          0x00000000        0x0 nrf24l01.o
  .bss           0x00000000        0x0 nrf24l01.o
  .text.copy_address
                 0x00000000       0x18 nrf24l01.o
+ .text.nRF24L01_init
+                0x00000000       0x14 nrf24l01.o
+ .text.nRF24L01_send_command
+                0x00000000       0x94 nrf24l01.o
+ .text.nRF24L01_write_register
+                0x00000000        0x8 nrf24l01.o
  .text.nRF24L01_read_register
                 0x00000000        0x6 nrf24l01.o
  .text.nRF24L01_no_op
@@ -104,6 +135,10 @@ Discarded input sections
                 0x00000000       0x10 nrf24l01.o
  .text.nRF24L01_retry_transmit
                 0x00000000       0x66 nrf24l01.o
+ .text.nRF24L01_clear_interrupts
+                0x00000000       0x26 nrf24l01.o
+ .text.nRF24L01_begin
+                0x00000000      0x1d0 nrf24l01.o
  .text.nRF24L01_clear_transmit_interrupts
                 0x00000000       0x26 nrf24l01.o
  .text.nRF24L01_transmit
@@ -116,9 +151,33 @@ Discarded input sections
                 0x00000000       0x60 nrf24l01.o
  .text.getRFRegValue
                 0x00000000       0x10 nrf24l01.o
+ .debug_info    0x00000000     0x1101 nrf24l01.o
+ .debug_abbrev  0x00000000      0x22f nrf24l01.o
+ .debug_loc     0x00000000      0xd6a nrf24l01.o
+ .debug_aranges
+                0x00000000       0xc0 nrf24l01.o
+ .debug_ranges  0x00000000       0xb0 nrf24l01.o
+ .debug_line    0x00000000      0x555 nrf24l01.o
+ .debug_str     0x00000000      0x46c nrf24l01.o
+ .comment       0x00000000       0x31 nrf24l01.o
+ .debug_frame   0x00000000      0x298 nrf24l01.o
  .text          0x00000000        0x0 SPI.o
  .data          0x00000000        0x0 SPI.o
  .bss           0x00000000        0x0 SPI.o
+ .text.SPI_init
+                0x00000000       0x32 SPI.o
+ .text.SPI_tradeByte
+                0x00000000        0xc SPI.o
+ .debug_info    0x00000000       0xad SPI.o
+ .debug_abbrev  0x00000000       0x7a SPI.o
+ .debug_loc     0x00000000       0x1f SPI.o
+ .debug_aranges
+                0x00000000       0x28 SPI.o
+ .debug_ranges  0x00000000       0x18 SPI.o
+ .debug_line    0x00000000       0xf6 SPI.o
+ .debug_str     0x00000000      0x187 SPI.o
+ .comment       0x00000000       0x31 SPI.o
+ .debug_frame   0x00000000       0x34 SPI.o
  .text          0x00000000        0x0 USART.o
  .data          0x00000000        0x0 USART.o
  .bss           0x00000000        0x0 USART.o
@@ -133,17 +192,17 @@ Discarded input sections
  .text.printWord
                 0x00000000      0x15c USART.o
  .rodata.str1.1
-                0x00000000        0x2 USART.o
+                0x00000000        0x4 USART.o
  .text.printSignedWord
                 0x00000000       0xf2 USART.o
  .text.printBinaryByte
                 0x00000000       0x40 USART.o
  .text.nibbleToHexCharacter
                 0x00000000        0xc USART.o
- .text.printHexWord
-                0x00000000       0x62 USART.o
  .text.printHexByte
                 0x00000000       0x34 USART.o
+ .text.printHexWord
+                0x00000000       0x1c USART.o
  .text.getNumber
                 0x00000000       0x48 USART.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
@@ -151,6 +210,8 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
+ .text.libgcc.div
+                0x00000000       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
  .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
@@ -227,6 +288,8 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.div
+                0x00000000       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
@@ -237,7 +300,12 @@ Discarded input sections
  .text.libgcc.fixed
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+ .data          0x00000000        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+ .text.avr-libc
+                0x00000000      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+ .comment       0x00000000       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+ COMMON         0x00000000        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
 
 Memory Configuration
 
@@ -254,8 +322,9 @@ user_signatures  0x00850000         0x00000400         rw !x
 Linker script and memory map
 
 Address of section .data set to 0x800100
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
 LOAD i2c.o
+LOAD i2c_RTC_DS1307.o
 LOAD lcd_4x20_i2c.o
 LOAD M90E26.o
 LOAD main.o
@@ -269,7 +338,7 @@ START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a
-LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5\libatmega328p.a
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5\libatmega328p.a
 END GROUP
                 0x00020000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
                 0x0000ffa0                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
@@ -369,9 +438,9 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x13f2
+.text           0x00000000      0x778
  *(.vectors)
- .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
                 0x00000000                __vectors
  *(.vectors)
@@ -399,13 +468,13 @@ END GROUP
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000068        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init0         0x00000068        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000068                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000068        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init2         0x00000068        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  *(.init2)
  *(.init3)
  *(.init3)
@@ -424,10 +493,10 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x0000009a        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init9         0x0000009a        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  *(.init9)
  *(.text)
- .text          0x000000a2        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .text          0x000000a2        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x000000a2                __vector_22
                 0x000000a2                __vector_24
                 0x000000a2                __vector_12
@@ -464,132 +533,87 @@ END GROUP
                 0x000000c4                i2cStart
  .text.i2cStop  0x000000d0        0x8 i2c.o
                 0x000000d0                i2cStop
- .text.i2cSend  0x000000d8       0x10 i2c.o
-                0x000000d8                i2cSend
- .text.send_Command
-                0x000000e8       0x2c lcd_4x20_i2c.o
-                0x000000e8                send_Command
- .text.set_Up_4bit_Mode
-                0x00000114       0x1a lcd_4x20_i2c.o
-                0x00000114                set_Up_4bit_Mode
- .text.configure_Control_Bytes
-                0x0000012e       0x32 lcd_4x20_i2c.o
-                0x0000012e                configure_Control_Bytes
- .text.enable_lcd
-                0x00000160        0xe lcd_4x20_i2c.o
-                0x00000160                enable_lcd
- .text.initLCD  0x0000016e        0xe lcd_4x20_i2c.o
-                0x0000016e                initLCD
- .text.clear_lcd
-                0x0000017c        0xe lcd_4x20_i2c.o
-                0x0000017c                clear_lcd
- .text.write    0x0000018a       0x1e lcd_4x20_i2c.o
-                0x0000018a                write
- .text.set_cursor
-                0x000001a8       0xc0 lcd_4x20_i2c.o
-                0x000001a8                set_cursor
- .text.lcd_print_string
-                0x00000268       0x2c lcd_4x20_i2c.o
-                0x00000268                lcd_print_string
- .text.get_pIC_RegValue
-                0x00000294       0x2c M90E26.o
-                0x00000294                get_pIC_RegValue
- .text.set_pIC_RegValue
-                0x000002c0       0x22 M90E26.o
-                0x000002c0                set_pIC_RegValue
- .text.pIC_Start
-                0x000002e2      0x138 M90E26.o
-                0x000002e2                pIC_Start
+ .text.i2cReadAck
+                0x000000d8       0x10 i2c.o
+                0x000000d8                i2cReadAck
+ .text.i2cReadNoAck
+                0x000000e8       0x10 i2c.o
+                0x000000e8                i2cReadNoAck
+ .text.i2cSend  0x000000f8       0x10 i2c.o
+                0x000000f8                i2cSend
  .text.clearBuff
-                0x0000041a       0x1e M90E26.o
-                0x0000041a                clearBuff
- .text.formatVoltage
-                0x00000438      0x152 M90E26.o
-                0x00000438                formatVoltage
- .text.formatCurrent
-                0x0000058a      0x152 M90E26.o
-                0x0000058a                formatCurrent
- .text.formatPower
-                0x000006dc       0xe4 M90E26.o
-                0x000006dc                formatPower
- .text.formatFrequency
-                0x000007c0      0x152 M90E26.o
-                0x000007c0                formatFrequency
- .text.formatPowerFactor
-                0x00000912       0xe0 M90E26.o
-                0x00000912                formatPowerFactor
- .text.formatPhaseAngle
-                0x000009f2       0xe4 M90E26.o
-                0x000009f2                formatPhaseAngle
- .text.setup_rf
-                0x00000ad6       0x50 main.o
-                0x00000ad6                setup_rf
+                0x00000108       0x1e i2c_RTC_DS1307.o
+                0x00000108                clearBuff
+ .text.formatTime
+                0x00000126       0x46 i2c_RTC_DS1307.o
+                0x00000126                formatTime
+ .text.formatYear
+                0x0000016c       0x7e i2c_RTC_DS1307.o
+                0x0000016c                formatYear
+ .text.get_time
+                0x000001ea      0x17a i2c_RTC_DS1307.o
+                0x000001ea                get_time
+ .text.send_Command
+                0x00000364       0x2c lcd_4x20_i2c.o
+                0x00000364                send_Command
+ .text.checkBF  0x00000390       0x3a lcd_4x20_i2c.o
+                0x00000390                checkBF
+ .text.set_Up_4bit_Mode
+                0x000003ca       0x4a lcd_4x20_i2c.o
+                0x000003ca                set_Up_4bit_Mode
+ .text.configure_Control_Bytes
+                0x00000414       0x5e lcd_4x20_i2c.o
+                0x00000414                configure_Control_Bytes
+ .text.enable_lcd
+                0x00000472       0x12 lcd_4x20_i2c.o
+                0x00000472                enable_lcd
+ .text.initLCD  0x00000484        0xe lcd_4x20_i2c.o
+                0x00000484                initLCD
+ .text.clear_lcd
+                0x00000492       0x12 lcd_4x20_i2c.o
+                0x00000492                clear_lcd
+ .text.write    0x000004a4       0x24 lcd_4x20_i2c.o
+                0x000004a4                write
+ .text.set_cursor
+                0x000004c8       0xdc lcd_4x20_i2c.o
+                0x000004c8                set_cursor
+ .text.lcd_print_string
+                0x000005a4       0x2c lcd_4x20_i2c.o
+                0x000005a4                lcd_print_string
  .text.setup_timer
-                0x00000b26       0x28 main.o
-                0x00000b26                setup_timer
- .text.print_power_data
-                0x00000b4e      0x136 main.o
-                0x00000b4e                print_power_data
- .text.lcd_print_power_data
-                0x00000c84       0xde main.o
-                0x00000c84                lcd_print_power_data
- .text.main     0x00000d62       0x5e main.o
-                0x00000d62                main
+                0x000005d0       0x28 main.o
+                0x000005d0                setup_timer
+ .text.print_time
+                0x000005f8       0x36 main.o
+                0x000005f8                print_time
+ .text.lcd_print_Time
+                0x0000062e       0x3a main.o
+                0x0000062e                lcd_print_Time
+ .text.main     0x00000668       0x54 main.o
+                0x00000668                main
  .text.__vector_11
-                0x00000dc0       0x1e main.o
-                0x00000dc0                __vector_11
+                0x000006bc       0x1e main.o
+                0x000006bc                __vector_11
  .text.__vector_1
-                0x00000dde       0x1e main.o
-                0x00000dde                __vector_1
- .text.nRF24L01_init
-                0x00000dfc       0x14 nrf24l01.o
-                0x00000dfc                nRF24L01_init
- .text.nRF24L01_send_command
-                0x00000e10       0x94 nrf24l01.o
-                0x00000e10                nRF24L01_send_command
- .text.nRF24L01_write_register
-                0x00000ea4        0x8 nrf24l01.o
-                0x00000ea4                nRF24L01_write_register
- .text.nRF24L01_clear_interrupts
-                0x00000eac       0x26 nrf24l01.o
-                0x00000eac                nRF24L01_clear_interrupts
- .text.nRF24L01_begin
-                0x00000ed2      0x1d0 nrf24l01.o
-                0x00000ed2                nRF24L01_begin
- .text.SPI_init
-                0x000010a2       0x32 SPI.o
-                0x000010a2                SPI_init
- .text.SPI_tradeByte
-                0x000010d4        0xc SPI.o
-                0x000010d4                SPI_tradeByte
+                0x000006da       0x1e main.o
+                0x000006da                __vector_1
  .text.initUSART
-                0x000010e0       0x22 USART.o
-                0x000010e0                initUSART
+                0x000006f8       0x22 USART.o
+                0x000006f8                initUSART
  .text.transmitByte
-                0x00001102       0x10 USART.o
-                0x00001102                transmitByte
+                0x0000071a       0x10 USART.o
+                0x0000071a                transmitByte
  .text.printString
-                0x00001112       0x2c USART.o
-                0x00001112                printString
- .text.libgcc.div
-                0x0000113e       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
-                0x0000113e                _div
-                0x0000113e                __divmodhi4
+                0x0000072a       0x2c USART.o
+                0x0000072a                printString
  .text.libgcc.mul
-                0x00001166       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
-                0x00001166                __umulhisi3
- .text.libgcc.div
-                0x00001184       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
-                0x00001184                __udivmodhi4
- .text.avr-libc
-                0x000011ac      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                0x000011ac                malloc
-                0x000012dc                free
-                0x000013ee                . = ALIGN (0x2)
+                0x00000756       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_umulhisi3.o)
+                0x00000756                __umulhisi3
+                0x00000774                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000013ee        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x000013ee                _exit
-                0x000013ee                exit
+ .fini9         0x00000774        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000774                _exit
+                0x00000774                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -608,31 +632,35 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000013ee        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000774        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000013f2                _etext = .
+                0x00000778                _etext = .
 
-.data           0x00800100      0x1b2 load address 0x000013f2
+.data           0x00800100      0x1b2 load address 0x00000778
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00800100        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                0x00800100                __malloc_heap_end
-                0x00800102                __malloc_heap_start
-                0x00800104                __malloc_margin
  *(.data*)
+ .data.clockAddressW
+                0x00800100        0x1 i2c_RTC_DS1307.o
+                0x00800100                clockAddressW
+ .data.clockAddressR
+                0x00800101        0x1 i2c_RTC_DS1307.o
+                0x00800101                clockAddressR
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800106      0x1ab main.o
-                                0x1c0 (size before relaxing)
+                0x00800102        0x6 i2c_RTC_DS1307.o
+ .rodata.str1.1
+                0x00800108      0x1a9 main.o
+                                0x1b8 (size before relaxing)
  *(.gnu.linkonce.r*)
                 0x008002b2                . = ALIGN (0x2)
  *fill*         0x008002b1        0x1 
                 0x008002b2                _edata = .
                 0x008002b2                PROVIDE (__data_end, .)
 
-.bss            0x008002b2        0x6
+.bss            0x008002b2        0x2
                 0x008002b2                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -643,19 +671,16 @@ END GROUP
                 0x008002b3        0x1 main.o
                 0x008002b3                rf_interrupt
  *(COMMON)
- COMMON         0x008002b4        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                0x008002b4                __brkval
-                0x008002b6                __flp
-                0x008002b8                PROVIDE (__bss_end, .)
-                0x000013f2                __data_load_start = LOADADDR (.data)
-                0x000015a4                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x008002b4                PROVIDE (__bss_end, .)
+                0x00000778                __data_load_start = LOADADDR (.data)
+                0x0000092a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008002b8        0x0
+.noinit         0x008002b4        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x008002b8                _end = .
-                0x008002b8                PROVIDE (__heap_start, .)
+                0x008002b4                _end = .
+                0x008002b4                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -698,18 +723,15 @@ END GROUP
  *(.comment)
  .comment       0x00000000       0x30 i2c.o
                                  0x31 (size before relaxing)
+ .comment       0x00000030       0x31 i2c_RTC_DS1307.o
  .comment       0x00000030       0x31 lcd_4x20_i2c.o
- .comment       0x00000030       0x31 M90E26.o
  .comment       0x00000030       0x31 main.o
- .comment       0x00000030       0x31 nrf24l01.o
- .comment       0x00000030       0x31 SPI.o
  .comment       0x00000030       0x31 USART.o
- .comment       0x00000030       0x31 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(malloc.o)
 
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
  .note.gnu.avr.deviceinfo
-                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+                0x00000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
 
 .note.gnu.build-id
  *(.note.gnu.build-id)
@@ -726,96 +748,78 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x360
+.debug_aranges  0x00000000      0x240
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x50 i2c.o
  .debug_aranges
-                0x00000050       0xa0 lcd_4x20_i2c.o
+                0x00000050       0x38 i2c_RTC_DS1307.o
  .debug_aranges
-                0x000000f0       0x78 M90E26.o
+                0x00000088       0xa8 lcd_4x20_i2c.o
  .debug_aranges
-                0x00000168       0x88 main.o
+                0x00000130       0x88 main.o
  .debug_aranges
-                0x000001f0       0xc0 nrf24l01.o
- .debug_aranges
-                0x000002b0       0x28 SPI.o
- .debug_aranges
-                0x000002d8       0x88 USART.o
+                0x000001b8       0x88 USART.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x4633
+.debug_info     0x00000000     0x2e2f
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4      0x15d i2c.o
- .debug_info    0x00000751      0x85a lcd_4x20_i2c.o
- .debug_info    0x00000fab      0x8e5 M90E26.o
- .debug_info    0x00001890     0x15bd main.o
- .debug_info    0x00002e4d     0x1101 nrf24l01.o
- .debug_info    0x00003f4e       0xad SPI.o
- .debug_info    0x00003ffb      0x638 USART.o
+ .debug_info    0x00000751      0x47a i2c_RTC_DS1307.o
+ .debug_info    0x00000bcb      0xc07 lcd_4x20_i2c.o
+ .debug_info    0x000017d2     0x10ab main.o
+ .debug_info    0x0000287d      0x5b2 USART.o
 
-.debug_abbrev   0x00000000      0xfa3
+.debug_abbrev   0x00000000      0xcba
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2       0xb9 i2c.o
- .debug_abbrev  0x0000065b      0x137 lcd_4x20_i2c.o
- .debug_abbrev  0x00000792      0x17e M90E26.o
- .debug_abbrev  0x00000910      0x29a main.o
- .debug_abbrev  0x00000baa      0x22f nrf24l01.o
- .debug_abbrev  0x00000dd9       0x7a SPI.o
- .debug_abbrev  0x00000e53      0x150 USART.o
+ .debug_abbrev  0x0000065b      0x167 i2c_RTC_DS1307.o
+ .debug_abbrev  0x000007c2      0x1a7 lcd_4x20_i2c.o
+ .debug_abbrev  0x00000969      0x201 main.o
+ .debug_abbrev  0x00000b6a      0x150 USART.o
 
-.debug_line     0x00000000     0x1ba1
+.debug_line     0x00000000     0x1275
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000133      0x170 i2c.o
- .debug_line    0x000002a3      0x381 lcd_4x20_i2c.o
- .debug_line    0x00000624      0x4c8 M90E26.o
- .debug_line    0x00000aec      0x6c1 main.o
- .debug_line    0x000011ad      0x555 nrf24l01.o
- .debug_line    0x00001702       0xf6 SPI.o
- .debug_line    0x000017f8      0x3a9 USART.o
+ .debug_line    0x000002a3      0x1f6 i2c_RTC_DS1307.o
+ .debug_line    0x00000499      0x501 lcd_4x20_i2c.o
+ .debug_line    0x0000099a      0x54a main.o
+ .debug_line    0x00000ee4      0x391 USART.o
 
-.debug_frame    0x00000000      0x96c
+.debug_frame    0x00000000      0x5b0
  *(.debug_frame)
  .debug_frame   0x00000000       0x84 i2c.o
- .debug_frame   0x00000084      0x170 lcd_4x20_i2c.o
- .debug_frame   0x000001f4      0x180 M90E26.o
- .debug_frame   0x00000374      0x184 main.o
- .debug_frame   0x000004f8      0x298 nrf24l01.o
- .debug_frame   0x00000790       0x34 SPI.o
- .debug_frame   0x000007c4      0x1a8 USART.o
+ .debug_frame   0x00000084       0x98 i2c_RTC_DS1307.o
+ .debug_frame   0x0000011c      0x190 lcd_4x20_i2c.o
+ .debug_frame   0x000002ac      0x160 main.o
+ .debug_frame   0x0000040c      0x1a4 USART.o
 
-.debug_str      0x00000000      0xb06
+.debug_str      0x00000000      0x85c
  *(.debug_str)
- .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/Atmel/ATmega_DFP/1.2.272/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x18c i2c.o
                                 0x1c5 (size before relaxing)
- .debug_str     0x00000394      0x180 lcd_4x20_i2c.o
-                                0x2d4 (size before relaxing)
- .debug_str     0x00000514      0x14a M90E26.o
-                                0x2cb (size before relaxing)
- .debug_str     0x0000065e      0x17e main.o
-                                0x48a (size before relaxing)
- .debug_str     0x000007dc      0x267 nrf24l01.o
-                                0x46c (size before relaxing)
- .debug_str     0x00000a43        0xb SPI.o
-                                0x187 (size before relaxing)
- .debug_str     0x00000a4e       0xb8 USART.o
-                                0x287 (size before relaxing)
+ .debug_str     0x00000394       0x86 i2c_RTC_DS1307.o
+                                0x225 (size before relaxing)
+ .debug_str     0x0000041a      0x198 lcd_4x20_i2c.o
+                                0x349 (size before relaxing)
+ .debug_str     0x000005b2      0x1de main.o
+                                0x3fc (size before relaxing)
+ .debug_str     0x00000790       0xcc USART.o
+                                0x288 (size before relaxing)
 
-.debug_loc      0x00000000     0x2555
+.debug_loc      0x00000000     0x1533
  *(.debug_loc)
  .debug_loc     0x00000000       0x2d i2c.o
- .debug_loc     0x0000002d      0x57c lcd_4x20_i2c.o
- .debug_loc     0x000005a9      0x703 M90E26.o
- .debug_loc     0x00000cac      0x3c7 main.o
- .debug_loc     0x00001073      0xd6a nrf24l01.o
- .debug_loc     0x00001ddd       0x1f SPI.o
- .debug_loc     0x00001dfc      0x759 USART.o
+ .debug_loc     0x0000002d      0x359 i2c_RTC_DS1307.o
+ .debug_loc     0x00000386      0x872 lcd_4x20_i2c.o
+ .debug_loc     0x00000bf8      0x247 main.o
+ .debug_loc     0x00000e3f      0x6f4 USART.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -835,15 +839,13 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x2f0
+.debug_ranges   0x00000000      0x1f0
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x40 i2c.o
- .debug_ranges  0x00000040       0x90 lcd_4x20_i2c.o
- .debug_ranges  0x000000d0       0x68 M90E26.o
- .debug_ranges  0x00000138       0x78 main.o
- .debug_ranges  0x000001b0       0xb0 nrf24l01.o
- .debug_ranges  0x00000260       0x18 SPI.o
- .debug_ranges  0x00000278       0x78 USART.o
+ .debug_ranges  0x00000040       0x28 i2c_RTC_DS1307.o
+ .debug_ranges  0x00000068       0x98 lcd_4x20_i2c.o
+ .debug_ranges  0x00000100       0x78 main.o
+ .debug_ranges  0x00000178       0x78 USART.o
 
 .debug_macro
  *(.debug_macro)
